@@ -1,0 +1,96 @@
+<mujoco model="jansen_leg">
+    <option timestep="0.002" integrator="RK4" gravity="0 0 -9.81"/>
+
+    <default>
+        <geom type="capsule" size="0.01" density="500" rgba="0.7 0.7 0.7 1"/>
+        <joint damping="0.5" frictionloss="0.1"/>
+        <site size="0.005" rgba="1 0 0 0"/>
+    </default>
+
+    <visual>
+        <headlight ambient="0.4 0.4 0.4" diffuse="0.6 0.6 0.6" specular="0.1 0.1 0.1"/>
+        <global offwidth="1920" offheight="1080"/>
+    </visual>
+
+    <worldbody>
+        <light pos="0 0 5" dir="0 0 -1" diffuse="0.8 0.8 0.8"/>
+        <geom name="floor" type="plane" pos="0 0 -1.5" size="5 5 0.1" rgba="0.2 0.2 0.2 1"/>
+
+        <body name="crank" pos="0 0 0">
+            <joint name="crank_joint" axis="0 1 0" />
+            <geom name="crank_arm" type="capsule" fromto="0 0 0  0.15 0 0" rgba="0.9 0.2 0.2 1" size="0.015"/>
+
+            <body name="crank_tip" pos="0.15 0 0">
+                <geom type="sphere" size="0.02" rgba="0.9 0.2 0.2 1"/>
+                <site name="s_crank_tip" pos="0 0 0"/>
+            </body>
+        </body>
+
+        <body name="leg_anchor" pos="-0.38 0 -0.078">
+            <geom type="sphere" size="0.03" rgba="0.2 0.2 0.9 1"/>
+
+            <body name="upper_leg_triangle" pos="0 0 0">
+                <joint name="upper_leg_joint" axis="0 1 0" pos="0 0 0"/>
+
+                <geom name="ul_side_b" fromto="0 0 0  -0.027 0 0.414" rgba="0.6 0.6 0.6 1"/>
+                <geom name="ul_side_d" fromto="0 0 0  -0.401 0 0" rgba="0.6 0.6 0.6 1"/>
+                <geom name="ul_side_e" fromto="-0.027 0 0.414 -0.401 0 0" rgba="0.6 0.6 0.6 1"/>
+
+                <body name="ul_top_vertex" pos="-0.027 0 0.414">
+                    <site name="s_ul_top" pos="0 0 0"/>
+                </body>
+                <body name="ul_front_vertex" pos="-0.401 0 0">
+                    <site name="s_ul_front" pos="0 0 0"/>
+                </body>
+            </body>
+
+            <body name="link_c" pos="0 0 0">
+                <joint name="link_c_joint" axis="0 1 0" pos="0 0 0"/>
+                <geom name="geom_link_c" fromto="0 0 0  0 0 -0.393" rgba="0.5 0.8 0.5 1"/>
+
+                <body name="lower_leg_triangle" pos="0 0 -0.393">
+                    <joint name="lower_leg_joint" axis="0 1 0" pos="0 0 0"/>
+
+                    <geom name="ll_side_g" fromto="0 0 0  -0.367 0 0" rgba="0.6 0.6 0.6 1"/>
+                    <geom name="ll_side_i" fromto="0 0 0  0.077 0 -0.48" rgba="0.6 0.6 0.6 1"/>
+                    <geom name="ll_side_h" fromto="-0.367 0 0  0.077 0 -0.48" rgba="0.6 0.6 0.6 1"/>
+
+                    <geom name="foot_visual" type="sphere" pos="0.077 0 -0.48" size="0.04" rgba="0.1 0.8 0.1 1"/>
+
+                    <body name="ll_mid_vertex" pos="0 0 0">
+                        <site name="s_ll_mid" pos="0 0 0"/>
+                    </body>
+                    <body name="ll_knee_vertex" pos="-0.367 0 0">
+                        <site name="s_ll_knee" pos="0 0 0"/>
+                    </body>
+                </body>
+            </body>
+        </body>
+    </worldbody>
+
+    <equality>
+        <connect name="link_j" body1="crank_tip" body2="ul_top_vertex" anchor="0 0 0" solref="0.005 1"/>
+        <connect name="link_k" body1="crank_tip" body2="ll_mid_vertex" anchor="0 0 0" solref="0.005 1"/>
+        <connect name="link_f" body1="ul_front_vertex" body2="ll_knee_vertex" anchor="0 0 0" solref="0.005 1"/>
+    </equality>
+
+    <tendon>
+        <spatial name="visual_link_j" width="0.01" rgba="0.5 0.8 0.5 1">
+            <site site="s_crank_tip"/>
+            <site site="s_ul_top"/>
+        </spatial>
+        <spatial name="visual_link_k" width="0.01" rgba="0.5 0.8 0.5 1">
+            <site site="s_crank_tip"/>
+            <site site="s_ll_mid"/>
+        </spatial>
+        <spatial name="visual_link_f" width="0.01" rgba="0.5 0.8 0.5 1">
+            <site site="s_ul_front"/>
+            <site site="s_ll_knee"/>
+        </spatial>
+    </tendon>
+
+    <actuator>
+        <motor joint="crank_joint" gear="100"/>
+    </actuator>
+
+</mujoco>
