@@ -1,0 +1,34 @@
+[project]
+name = "final-project"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "ffmpeg>=1.4",
+    "foldable-robotics>=0.0.36",
+    "idealab-tools>=0.0.27",
+    "ipywidgets>=8.1.7",
+    "matplotlib>=3.9.4",
+    "mediapy>=1.2.4",
+    "mujoco>=3.3.6",
+    "pandas>=2.3.3",
+    "pycairo>=1.28.0",
+    "pygmsh>=7.1.17",
+    "pyopengl>=3.1.10",
+    "pypoly2tri>=0.0.3",
+    "pyqtgraph>=0.13.7",
+    "pyyaml>=6.0.3",
+    "reportlab>=4.4.4",
+    "requests>=2.32.5",
+    "scipy>=1.13.1",
+    "shapely>=2.0.7",
+    "sympy>=1.14.0",
+]
+
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.30.1",
+    "nbconvert[webpdf]>=7.16.6",
+]
