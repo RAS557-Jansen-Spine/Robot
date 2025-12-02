@@ -1,0 +1,475 @@
+<mujoco model="jansen_linkage_robot">
+  <compiler angle="radian" coordinate="local" inertiafromgeom="true"/>
+
+  <option timestep="0.002" gravity="0 0 -9.81" iterations="50" solver="Newton" tolerance="1e-10">
+    <flag warmstart="enable" energy="enable"/>
+  </option>
+
+  <default>
+    <joint limited="true" damping="0.5" armature="0.01"/>
+    <geom conaffinity="1" condim="3" contype="1" friction="1.5 0.005 0.0001" rgba="0.85 0.85 0.85 1" margin="0.001" solref="0.02 1"/>
+    <equality solimp="0.95 0.99 0.001" solref="0.02 1"/>
+  </default>
+
+  <asset>
+    <texture name="grid" type="2d" builtin="checker" width="512" height="512" rgb1="0.15 0.15 0.15" rgb2="0.25 0.25 0.25"/>
+    <material name="grid" texture="grid" texrepeat="10 10" reflectance="0.3"/>
+    <material name="linkage" rgba="0.7 0.7 0.7 1"/>
+    <material name="actuator" rgba="0.7 0.75 0.35 1"/>
+    <material name="platform" rgba="0.6 0.6 0.65 1"/>
+  </asset>
+
+  <worldbody>
+    <light directional="true" diffuse="0.8 0.8 0.8" specular="0.4 0.4 0.4" pos="0 0 5" dir="0 0 -1"/>
+    <light directional="true" diffuse="0.5 0.5 0.5" specular="0.2 0.2 0.2" pos="3 3 4" dir="-1 -1 -1"/>
+    <geom name="floor" pos="0 0 0" size="10 10 0.1" type="plane" material="grid" condim="3"/>
+
+    <body name="base" pos="0 0 0.35">
+      <freejoint/>
+      <geom name="base_plate" type="box" size="0.12 0.08 0.012" mass="0.8" material="platform"/>
+
+      <!-- Front Left Leg -->
+      <!-- Fixed pivot point on platform (top of triangle) -->
+      <body name="leg1_pivot" pos="0.08 0.07 -0.02">
+        <geom name="leg1_pivot_sphere" type="sphere" size="0.012" mass="0.02" rgba="0.5 0.5 0.5 1"/>
+      </body>
+
+      <!-- Crank - rotates from pivot -->
+      <body name="leg1_crank" pos="0.08 0.07 -0.02">
+        <joint name="leg1_crank_j" type="hinge" axis="0 1 0" range="-6.28 6.28" damping="0.2"/>
+        <geom name="leg1_crank_geom" type="capsule" fromto="0 0 0 0.08 0 -0.10" size="0.009" mass="0.04" material="actuator"/>
+
+        <!-- Point A at end of crank -->
+        <body name="leg1_A" pos="0.08 0 -0.10">
+          <geom name="leg1_A_sphere" type="sphere" size="0.011" mass="0.02" rgba="0.5 0.5 0.5 1"/>
+        </body>
+      </body>
+
+      <!-- Fixed lower pivot (bottom left of triangle) -->
+      <body name="leg1_lower_pivot" pos="0.08 0.07 -0.14">
+        <geom name="leg1_lower_pivot_sphere" type="sphere" size="0.012" mass="0.02" rgba="0.5 0.5 0.5 1"/>
+      </body>
+
+      <!-- Link from lower pivot to point A (left side of triangle) -->
+      <body name="leg1_left_link" pos="0.08 0.07 -0.14">
+        <joint name="leg1_left_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+        <geom name="leg1_left_geom" type="capsule" fromto="0 0 0 0.08 0 0.04" size="0.009" mass="0.04" material="linkage"/>
+      </body>
+
+      <!-- Link from lower pivot to point B (bottom of triangle) -->
+      <body name="leg1_bottom_link" pos="0.08 0.07 -0.14">
+        <joint name="leg1_bottom_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+        <geom name="leg1_bottom_geom" type="capsule" fromto="0 0 0 0.14 0 -0.06" size="0.009" mass="0.05" material="linkage"/>
+
+        <!-- Point B -->
+        <body name="leg1_B" pos="0.14 0 -0.06">
+          <geom name="leg1_B_sphere" type="sphere" size="0.011" mass="0.02" rgba="0.5 0.5 0.5 1"/>
+        </body>
+      </body>
+
+      <!-- Link from A to B (right side of triangle) -->
+      <body name="leg1_right_link" pos="0.16 0.07 -0.12">
+        <joint name="leg1_right_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+        <geom name="leg1_right_geom" type="capsule" fromto="0 0 0 0.06 0 -0.08" size="0.009" mass="0.04" material="linkage"/>
+      </body>
+
+      <!-- Vertical link with foot (pyramid edge) -->
+      <body name="leg1_vertical" pos="0.22 0.07 -0.20">
+        <joint name="leg1_vertical_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+        <geom name="leg1_vertical_geom" type="capsule" fromto="0 0 0 0 0 -0.08" size="0.010" mass="0.045" material="linkage"/>
+
+        <body name="leg1_foot" pos="0 0 -0.08">
+          <geom name="leg1_foot_tip" type="sphere" size="0.028" mass="0.08" rgba="0.3 0.3 0.3 1" friction="2.5 0.005 0.0001"/>
+        </body>
+      </body>
+
+      <!-- Top pyramid link (from A to top of vertical) -->
+      <body name="leg1_top_pyramid" pos="0.16 0.07 -0.12">
+        <joint name="leg1_top_pyr_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+        <geom name="leg1_top_pyr_geom" type="capsule" fromto="0 0 0 0.06 0 -0.08" size="0.009" mass="0.04" material="linkage"/>
+      </body>
+
+      <!-- Bottom pyramid link (from B to bottom of vertical) -->
+      <body name="leg1_bottom_pyramid" pos="0.22 0.07 -0.20">
+        <joint name="leg1_bot_pyr_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+        <geom name="leg1_bot_pyr_geom" type="capsule" fromto="0 0 0 0 0 -0.08" size="0.009" mass="0.04" material="linkage"/>
+      </body>
+
+      <!-- Front Right Leg (mirror) -->
+      <body name="leg2_pivot" pos="0.08 -0.07 -0.02">
+        <geom name="leg2_pivot_sphere" type="sphere" size="0.012" mass="0.02" rgba="0.5 0.5 0.5 1"/>
+      </body>
+
+      <body name="leg2_crank" pos="0.08 -0.07 -0.02">
+        <joint name="leg2_crank_j" type="hinge" axis="0 1 0" range="-6.28 6.28" damping="0.2"/>
+        <geom name="leg2_crank_geom" type="capsule" fromto="0 0 0 0.08 0 -0.10" size="0.009" mass="0.04" material="actuator"/>
+        <body name="leg2_A" pos="0.08 0 -0.10">
+          <geom name="leg2_A_sphere" type="sphere" size="0.011" mass="0.02" rgba="0.5 0.5 0.5 1"/>
+        </body>
+      </body>
+
+      <body name="leg2_lower_pivot" pos="0.08 -0.07 -0.14">
+        <geom name="leg2_lower_pivot_sphere" type="sphere" size="0.012" mass="0.02" rgba="0.5 0.5 0.5 1"/>
+      </body>
+
+      <body name="leg2_left_link" pos="0.08 -0.07 -0.14">
+        <joint name="leg2_left_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+        <geom name="leg2_left_geom" type="capsule" fromto="0 0 0 0.08 0 0.04" size="0.009" mass="0.04" material="linkage"/>
+      </body>
+
+      <body name="leg2_bottom_link" pos="0.08 -0.07 -0.14">
+        <joint name="leg2_bottom_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+        <geom name="leg2_bottom_geom" type="capsule" fromto="0 0 0 0.14 0 -0.06" size="0.009" mass="0.05" material="linkage"/>
+        <body name="leg2_B" pos="0.14 0 -0.06">
+          <geom name="leg2_B_sphere" type="sphere" size="0.011" mass="0.02" rgba="0.5 0.5 0.5 1"/>
+        </body>
+      </body>
+
+      <body name="leg2_right_link" pos="0.16 -0.07 -0.12">
+        <joint name="leg2_right_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+        <geom name="leg2_right_geom" type="capsule" fromto="0 0 0 0.06 0 -0.08" size="0.009" mass="0.04" material="linkage"/>
+      </body>
+
+      <body name="leg2_vertical" pos="0.22 -0.07 -0.20">
+        <joint name="leg2_vertical_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+        <geom name="leg2_vertical_geom" type="capsule" fromto="0 0 0 0 0 -0.08" size="0.010" mass="0.045" material="linkage"/>
+        <body name="leg2_foot" pos="0 0 -0.08">
+          <geom name="leg2_foot_tip" type="sphere" size="0.028" mass="0.08" rgba="0.3 0.3 0.3 1" friction="2.5 0.005 0.0001"/>
+        </body>
+      </body>
+
+      <body name="leg2_top_pyramid" pos="0.16 -0.07 -0.12">
+        <joint name="leg2_top_pyr_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+        <geom name="leg2_top_pyr_geom" type="capsule" fromto="0 0 0 0.06 0 -0.08" size="0.009" mass="0.04" material="linkage"/>
+      </body>
+
+      <body name="leg2_bottom_pyramid" pos="0.22 -0.07 -0.20">
+        <joint name="leg2_bot_pyr_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+        <geom name="leg2_bot_pyr_geom" type="capsule" fromto="0 0 0 0 0 -0.08" size="0.009" mass="0.04" material="linkage"/>
+      </body>
+
+      <!-- Spine connector -->
+      <body name="spine1_link" pos="-0.12 0 0">
+        <joint name="spine1_flex" type="hinge" axis="1 0 0" range="-0.3 0.3" damping="1.5"/>
+        <geom name="spine1_geom" type="capsule" fromto="0 0 0 -0.25 0 0" size="0.010" mass="0.15" material="linkage"/>
+
+        <!-- Mid platform -->
+        <body name="mid_platform" pos="-0.25 0 0">
+          <geom name="mid_plate" type="box" size="0.12 0.08 0.012" mass="0.8" material="platform"/>
+
+          <!-- Mid Left Leg -->
+          <body name="leg3_pivot" pos="0.08 0.07 -0.02">
+            <geom name="leg3_pivot_sphere" type="sphere" size="0.012" mass="0.02" rgba="0.5 0.5 0.5 1"/>
+          </body>
+
+          <body name="leg3_crank" pos="0.08 0.07 -0.02">
+            <joint name="leg3_crank_j" type="hinge" axis="0 1 0" range="-6.28 6.28" damping="0.2"/>
+            <geom name="leg3_crank_geom" type="capsule" fromto="0 0 0 0.08 0 -0.10" size="0.009" mass="0.04" material="actuator"/>
+            <body name="leg3_A" pos="0.08 0 -0.10">
+              <geom name="leg3_A_sphere" type="sphere" size="0.011" mass="0.02" rgba="0.5 0.5 0.5 1"/>
+            </body>
+          </body>
+
+          <body name="leg3_lower_pivot" pos="0.08 0.07 -0.14">
+            <geom name="leg3_lower_pivot_sphere" type="sphere" size="0.012" mass="0.02" rgba="0.5 0.5 0.5 1"/>
+          </body>
+
+          <body name="leg3_left_link" pos="0.08 0.07 -0.14">
+            <joint name="leg3_left_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+            <geom name="leg3_left_geom" type="capsule" fromto="0 0 0 0.08 0 0.04" size="0.009" mass="0.04" material="linkage"/>
+          </body>
+
+          <body name="leg3_bottom_link" pos="0.08 0.07 -0.14">
+            <joint name="leg3_bottom_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+            <geom name="leg3_bottom_geom" type="capsule" fromto="0 0 0 0.14 0 -0.06" size="0.009" mass="0.05" material="linkage"/>
+            <body name="leg3_B" pos="0.14 0 -0.06">
+              <geom name="leg3_B_sphere" type="sphere" size="0.011" mass="0.02" rgba="0.5 0.5 0.5 1"/>
+            </body>
+          </body>
+
+          <body name="leg3_right_link" pos="0.16 0.07 -0.12">
+            <joint name="leg3_right_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+            <geom name="leg3_right_geom" type="capsule" fromto="0 0 0 0.06 0 -0.08" size="0.009" mass="0.04" material="linkage"/>
+          </body>
+
+          <body name="leg3_vertical" pos="0.22 0.07 -0.20">
+            <joint name="leg3_vertical_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+            <geom name="leg3_vertical_geom" type="capsule" fromto="0 0 0 0 0 -0.08" size="0.010" mass="0.045" material="linkage"/>
+            <body name="leg3_foot" pos="0 0 -0.08">
+              <geom name="leg3_foot_tip" type="sphere" size="0.028" mass="0.08" rgba="0.3 0.3 0.3 1" friction="2.5 0.005 0.0001"/>
+            </body>
+          </body>
+
+          <body name="leg3_top_pyramid" pos="0.16 0.07 -0.12">
+            <joint name="leg3_top_pyr_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+            <geom name="leg3_top_pyr_geom" type="capsule" fromto="0 0 0 0.06 0 -0.08" size="0.009" mass="0.04" material="linkage"/>
+          </body>
+
+          <body name="leg3_bottom_pyramid" pos="0.22 0.07 -0.20">
+            <joint name="leg3_bot_pyr_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+            <geom name="leg3_bot_pyr_geom" type="capsule" fromto="0 0 0 0 0 -0.08" size="0.009" mass="0.04" material="linkage"/>
+          </body>
+
+          <!-- Mid Right Leg -->
+          <body name="leg4_pivot" pos="0.08 -0.07 -0.02">
+            <geom name="leg4_pivot_sphere" type="sphere" size="0.012" mass="0.02" rgba="0.5 0.5 0.5 1"/>
+          </body>
+
+          <body name="leg4_crank" pos="0.08 -0.07 -0.02">
+            <joint name="leg4_crank_j" type="hinge" axis="0 1 0" range="-6.28 6.28" damping="0.2"/>
+            <geom name="leg4_crank_geom" type="capsule" fromto="0 0 0 0.08 0 -0.10" size="0.009" mass="0.04" material="actuator"/>
+            <body name="leg4_A" pos="0.08 0 -0.10">
+              <geom name="leg4_A_sphere" type="sphere" size="0.011" mass="0.02" rgba="0.5 0.5 0.5 1"/>
+            </body>
+          </body>
+
+          <body name="leg4_lower_pivot" pos="0.08 -0.07 -0.14">
+            <geom name="leg4_lower_pivot_sphere" type="sphere" size="0.012" mass="0.02" rgba="0.5 0.5 0.5 1"/>
+          </body>
+
+          <body name="leg4_left_link" pos="0.08 -0.07 -0.14">
+            <joint name="leg4_left_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+            <geom name="leg4_left_geom" type="capsule" fromto="0 0 0 0.08 0 0.04" size="0.009" mass="0.04" material="linkage"/>
+          </body>
+
+          <body name="leg4_bottom_link" pos="0.08 -0.07 -0.14">
+            <joint name="leg4_bottom_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+            <geom name="leg4_bottom_geom" type="capsule" fromto="0 0 0 0.14 0 -0.06" size="0.009" mass="0.05" material="linkage"/>
+            <body name="leg4_B" pos="0.14 0 -0.06">
+              <geom name="leg4_B_sphere" type="sphere" size="0.011" mass="0.02" rgba="0.5 0.5 0.5 1"/>
+            </body>
+          </body>
+
+          <body name="leg4_right_link" pos="0.16 -0.07 -0.12">
+            <joint name="leg4_right_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+            <geom name="leg4_right_geom" type="capsule" fromto="0 0 0 0.06 0 -0.08" size="0.009" mass="0.04" material="linkage"/>
+          </body>
+
+          <body name="leg4_vertical" pos="0.22 -0.07 -0.20">
+            <joint name="leg4_vertical_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+            <geom name="leg4_vertical_geom" type="capsule" fromto="0 0 0 0 0 -0.08" size="0.010" mass="0.045" material="linkage"/>
+            <body name="leg4_foot" pos="0 0 -0.08">
+              <geom name="leg4_foot_tip" type="sphere" size="0.028" mass="0.08" rgba="0.3 0.3 0.3 1" friction="2.5 0.005 0.0001"/>
+            </body>
+          </body>
+
+          <body name="leg4_top_pyramid" pos="0.16 -0.07 -0.12">
+            <joint name="leg4_top_pyr_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+            <geom name="leg4_top_pyr_geom" type="capsule" fromto="0 0 0 0.06 0 -0.08" size="0.009" mass="0.04" material="linkage"/>
+          </body>
+
+          <body name="leg4_bottom_pyramid" pos="0.22 -0.07 -0.20">
+            <joint name="leg4_bot_pyr_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+            <geom name="leg4_bot_pyr_geom" type="capsule" fromto="0 0 0 0 0 -0.08" size="0.009" mass="0.04" material="linkage"/>
+          </body>
+
+          <!-- Second spine segment -->
+          <body name="spine2_link" pos="-0.12 0 0">
+            <joint name="spine2_flex" type="hinge" axis="1 0 0" range="-0.3 0.3" damping="1.5"/>
+            <geom name="spine2_geom" type="capsule" fromto="0 0 0 -0.25 0 0" size="0.010" mass="0.15" material="linkage"/>
+
+            <!-- Rear platform -->
+            <body name="rear_platform" pos="-0.25 0 0">
+              <geom name="rear_plate" type="box" size="0.12 0.08 0.012" mass="0.8" material="platform"/>
+
+              <!-- Rear Left Leg -->
+              <body name="leg5_pivot" pos="0.08 0.07 -0.02">
+                <geom name="leg5_pivot_sphere" type="sphere" size="0.012" mass="0.02" rgba="0.5 0.5 0.5 1"/>
+              </body>
+
+              <body name="leg5_crank" pos="0.08 0.07 -0.02">
+                <joint name="leg5_crank_j" type="hinge" axis="0 1 0" range="-6.28 6.28" damping="0.2"/>
+                <geom name="leg5_crank_geom" type="capsule" fromto="0 0 0 0.08 0 -0.10" size="0.009" mass="0.04" material="actuator"/>
+                <body name="leg5_A" pos="0.08 0 -0.10">
+                  <geom name="leg5_A_sphere" type="sphere" size="0.011" mass="0.02" rgba="0.5 0.5 0.5 1"/>
+                </body>
+              </body>
+
+              <body name="leg5_lower_pivot" pos="0.08 0.07 -0.14">
+                <geom name="leg5_lower_pivot_sphere" type="sphere" size="0.012" mass="0.02" rgba="0.5 0.5 0.5 1"/>
+              </body>
+
+              <body name="leg5_left_link" pos="0.08 0.07 -0.14">
+                <joint name="leg5_left_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+                <geom name="leg5_left_geom" type="capsule" fromto="0 0 0 0.08 0 0.04" size="0.009" mass="0.04" material="linkage"/>
+              </body>
+
+              <body name="leg5_bottom_link" pos="0.08 0.07 -0.14">
+                <joint name="leg5_bottom_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+                <geom name="leg5_bottom_geom" type="capsule" fromto="0 0 0 0.14 0 -0.06" size="0.009" mass="0.05" material="linkage"/>
+                <body name="leg5_B" pos="0.14 0 -0.06">
+                  <geom name="leg5_B_sphere" type="sphere" size="0.011" mass="0.02" rgba="0.5 0.5 0.5 1"/>
+                </body>
+              </body>
+
+              <body name="leg5_right_link" pos="0.16 0.07 -0.12">
+                <joint name="leg5_right_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+                <geom name="leg5_right_geom" type="capsule" fromto="0 0 0 0.06 0 -0.08" size="0.009" mass="0.04" material="linkage"/>
+              </body>
+
+              <body name="leg5_vertical" pos="0.22 0.07 -0.20">
+                <joint name="leg5_vertical_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+                <geom name="leg5_vertical_geom" type="capsule" fromto="0 0 0 0 0 -0.08" size="0.010" mass="0.045" material="linkage"/>
+                <body name="leg5_foot" pos="0 0 -0.08">
+                  <geom name="leg5_foot_tip" type="sphere" size="0.028" mass="0.08" rgba="0.3 0.3 0.3 1" friction="2.5 0.005 0.0001"/>
+                </body>
+              </body>
+
+              <body name="leg5_top_pyramid" pos="0.16 0.07 -0.12">
+                <joint name="leg5_top_pyr_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+                <geom name="leg5_top_pyr_geom" type="capsule" fromto="0 0 0 0.06 0 -0.08" size="0.009" mass="0.04" material="linkage"/>
+              </body>
+
+              <body name="leg5_bottom_pyramid" pos="0.22 0.07 -0.20">
+                <joint name="leg5_bot_pyr_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+                <geom name="leg5_bot_pyr_geom" type="capsule" fromto="0 0 0 0 0 -0.08" size="0.009" mass="0.04" material="linkage"/>
+              </body>
+
+              <!-- Rear Right Leg -->
+              <body name="leg6_pivot" pos="0.08 -0.07 -0.02">
+                <geom name="leg6_pivot_sphere" type="sphere" size="0.012" mass="0.02" rgba="0.5 0.5 0.5 1"/>
+              </body>
+
+              <body name="leg6_crank" pos="0.08 -0.07 -0.02">
+                <joint name="leg6_crank_j" type="hinge" axis="0 1 0" range="-6.28 6.28" damping="0.2"/>
+                <geom name="leg6_crank_geom" type="capsule" fromto="0 0 0 0.08 0 -0.10" size="0.009" mass="0.04" material="actuator"/>
+                <body name="leg6_A" pos="0.08 0 -0.10">
+                  <geom name="leg6_A_sphere" type="sphere" size="0.011" mass="0.02" rgba="0.5 0.5 0.5 1"/>
+                </body>
+              </body>
+
+              <body name="leg6_lower_pivot" pos="0.08 -0.07 -0.14">
+                <geom name="leg6_lower_pivot_sphere" type="sphere" size="0.012" mass="0.02" rgba="0.5 0.5 0.5 1"/>
+              </body>
+
+              <body name="leg6_left_link" pos="0.08 -0.07 -0.14">
+                <joint name="leg6_left_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+                <geom name="leg6_left_geom" type="capsule" fromto="0 0 0 0.08 0 0.04" size="0.009" mass="0.04" material="linkage"/>
+              </body>
+
+              <body name="leg6_bottom_link" pos="0.08 -0.07 -0.14">
+                <joint name="leg6_bottom_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+                <geom name="leg6_bottom_geom" type="capsule" fromto="0 0 0 0.14 0 -0.06" size="0.009" mass="0.05" material="linkage"/>
+                <body name="leg6_B" pos="0.14 0 -0.06">
+                  <geom name="leg6_B_sphere" type="sphere" size="0.011" mass="0.02" rgba="0.5 0.5 0.5 1"/>
+                </body>
+              </body>
+
+              <body name="leg6_right_link" pos="0.16 -0.07 -0.12">
+                <joint name="leg6_right_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+                <geom name="leg6_right_geom" type="capsule" fromto="0 0 0 0.06 0 -0.08" size="0.009" mass="0.04" material="linkage"/>
+              </body>
+
+              <body name="leg6_vertical" pos="0.22 -0.07 -0.20">
+                <joint name="leg6_vertical_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+                <geom name="leg6_vertical_geom" type="capsule" fromto="0 0 0 0 0 -0.08" size="0.010" mass="0.045" material="linkage"/>
+                <body name="leg6_foot" pos="0 0 -0.08">
+                  <geom name="leg6_foot_tip" type="sphere" size="0.028" mass="0.08" rgba="0.3 0.3 0.3 1" friction="2.5 0.005 0.0001"/>
+                </body>
+              </body>
+
+              <body name="leg6_top_pyramid" pos="0.16 -0.07 -0.12">
+                <joint name="leg6_top_pyr_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+                <geom name="leg6_top_pyr_geom" type="capsule" fromto="0 0 0 0.06 0 -0.08" size="0.009" mass="0.04" material="linkage"/>
+              </body>
+
+              <body name="leg6_bottom_pyramid" pos="0.22 -0.07 -0.20">
+                <joint name="leg6_bot_pyr_j" type="hinge" axis="0 1 0" range="-3.14 3.14" damping="0.3"/>
+                <geom name="leg6_bot_pyr_geom" type="capsule" fromto="0 0 0 0 0 -0.08" size="0.009" mass="0.04" material="linkage"/>
+              </body>
+
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <equality>
+    <!-- Leg 1 constraints -->
+    <weld body1="leg1_crank" body2="leg1_A" anchor="0.08 0 -0.10" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg1_left_link" body2="leg1_A" anchor="0.08 0 0.04" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg1_bottom_link" body2="leg1_B" anchor="0.14 0 -0.06" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg1_right_link" body2="leg1_A" anchor="0 0 0" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg1_right_link" body2="leg1_B" anchor="0.06 0 -0.08" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg1_top_pyramid" body2="leg1_A" anchor="0 0 0" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg1_top_pyramid" body2="leg1_vertical" anchor="0.06 0 -0.08" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg1_bottom_pyramid" body2="leg1_B" anchor="0 0 0" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg1_bottom_pyramid" body2="leg1_foot" anchor="0 0 -0.08" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+
+    <!-- Leg 2 constraints -->
+    <weld body1="leg2_crank" body2="leg2_A" anchor="0.08 0 -0.10" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg2_left_link" body2="leg2_A" anchor="0.08 0 0.04" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg2_bottom_link" body2="leg2_B" anchor="0.14 0 -0.06" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg2_right_link" body2="leg2_A" anchor="0 0 0" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg2_right_link" body2="leg2_B" anchor="0.06 0 -0.08" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg2_top_pyramid" body2="leg2_A" anchor="0 0 0" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg2_top_pyramid" body2="leg2_vertical" anchor="0.06 0 -0.08" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg2_bottom_pyramid" body2="leg2_B" anchor="0 0 0" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg2_bottom_pyramid" body2="leg2_foot" anchor="0 0 -0.08" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+
+    <!-- Leg 3 constraints -->
+    <weld body1="leg3_crank" body2="leg3_A" anchor="0.08 0 -0.10" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg3_left_link" body2="leg3_A" anchor="0.08 0 0.04" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg3_bottom_link" body2="leg3_B" anchor="0.14 0 -0.06" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg3_right_link" body2="leg3_A" anchor="0 0 0" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg3_right_link" body2="leg3_B" anchor="0.06 0 -0.08" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg3_top_pyramid" body2="leg3_A" anchor="0 0 0" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg3_top_pyramid" body2="leg3_vertical" anchor="0.06 0 -0.08" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg3_bottom_pyramid" body2="leg3_B" anchor="0 0 0" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg3_bottom_pyramid" body2="leg3_foot" anchor="0 0 -0.08" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+
+    <!-- Leg 4 constraints -->
+    <weld body1="leg4_crank" body2="leg4_A" anchor="0.08 0 -0.10" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg4_left_link" body2="leg4_A" anchor="0.08 0 0.04" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg4_bottom_link" body2="leg4_B" anchor="0.14 0 -0.06" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg4_right_link" body2="leg4_A" anchor="0 0 0" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg4_right_link" body2="leg4_B" anchor="0.06 0 -0.08" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg4_top_pyramid" body2="leg4_A" anchor="0 0 0" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg4_top_pyramid" body2="leg4_vertical" anchor="0.06 0 -0.08" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg4_bottom_pyramid" body2="leg4_B" anchor="0 0 0" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg4_bottom_pyramid" body2="leg4_foot" anchor="0 0 -0.08" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+
+    <!-- Leg 5 constraints -->
+    <weld body1="leg5_crank" body2="leg5_A" anchor="0.08 0 -0.10" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg5_left_link" body2="leg5_A" anchor="0.08 0 0.04" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg5_bottom_link" body2="leg5_B" anchor="0.14 0 -0.06" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg5_right_link" body2="leg5_A" anchor="0 0 0" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg5_right_link" body2="leg5_B" anchor="0.06 0 -0.08" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg5_top_pyramid" body2="leg5_A" anchor="0 0 0" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg5_top_pyramid" body2="leg5_vertical" anchor="0.06 0 -0.08" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg5_bottom_pyramid" body2="leg5_B" anchor="0 0 0" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg5_bottom_pyramid" body2="leg5_foot" anchor="0 0 -0.08" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+
+    <!-- Leg 6 constraints -->
+    <weld body1="leg6_crank" body2="leg6_A" anchor="0.08 0 -0.10" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg6_left_link" body2="leg6_A" anchor="0.08 0 0.04" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg6_bottom_link" body2="leg6_B" anchor="0.14 0 -0.06" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg6_right_link" body2="leg6_A" anchor="0 0 0" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg6_right_link" body2="leg6_B" anchor="0.06 0 -0.08" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg6_top_pyramid" body2="leg6_A" anchor="0 0 0" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg6_top_pyramid" body2="leg6_vertical" anchor="0.06 0 -0.08" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg6_bottom_pyramid" body2="leg6_B" anchor="0 0 0" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+    <weld body1="leg6_bottom_pyramid" body2="leg6_foot" anchor="0 0 -0.08" solref="0.02 1" solimp="0.95 0.99 0.001"/>
+  </equality>
+
+  <actuator>
+    <!-- Velocity motors for continuous rotation (walking gait) -->
+    <velocity name="leg1_motor" joint="leg1_crank_j" kv="100"/>
+    <velocity name="leg2_motor" joint="leg2_crank_j" kv="100"/>
+    <velocity name="leg3_motor" joint="leg3_crank_j" kv="100"/>
+    <velocity name="leg4_motor" joint="leg4_crank_j" kv="100"/>
+    <velocity name="leg5_motor" joint="leg5_crank_j" kv="100"/>
+    <velocity name="leg6_motor" joint="leg6_crank_j" kv="100"/>
+
+    <!-- Spine actuators for turning -->
+    <position name="spine1_motor" joint="spine1_flex" kp="800" kv="40" ctrlrange="-0.3 0.3"/>
+    <position name="spine2_motor" joint="spine2_flex" kp="800" kv="40" ctrlrange="-0.3 0.3"/>
+  </actuator>
+
+  <sensor>
+    <framepos name="base_pos" objtype="body" objname="base"/>
+    <framequat name="base_quat" objtype="body" objname="base"/>
+  </sensor>
+
+</mujoco>
