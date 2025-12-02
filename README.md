@@ -13,7 +13,7 @@ This project is a tool for designing and generating manufacturing files for fold
 
 ## Project Structure
 
-- `dxf_genmerator.ipynb`: The main Jupyter Notebook that drives the design process, defines the laminate layers, and exports the final DXF files.
+- `cut_generator.ipynb`: The main Jupyter Notebook that drives the design process, defines the laminate layers, and exports the final DXF files.
 - `dxfv2.py`: A utility module for DXF file operations, including geometry extraction and file creation.
 - `dxf/`: Directory containing input and output files.
   - `input/`: Source DXF designs (e.g., `jensen-leg.dxf`).
@@ -47,9 +47,9 @@ Ensure you have Python 3.9 or higher installed.
    Place your base design DXF file in the `dxf/input/` directory. Note that the example input files provided were created using **LibreCAD**. Ensure your geometry is organized into appropriate layers (e.g., "body", "holes") if required by the script.
 
 2. **Run the Generator:**
-   Open `dxf_genmerator.ipynb` in Jupyter Notebook or VS Code.
+   Open `cut_genmerator.ipynb` in Jupyter Notebook or VS Code.
    ```bash
-   jupyter notebook dxf_genmerator.ipynb
+   jupyter notebook cut_generator.ipynb
    ```
    Execute the cells in order. The notebook will:
    - Load the input geometry.
