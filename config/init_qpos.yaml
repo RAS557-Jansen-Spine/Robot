@@ -1,0 +1,43 @@
+initial_qpos:
+  # Hinge/slide joints take a single scalar position
+
+  link_0_joint_1: -0.6
+  link_0_joint_2: -0.6
+
+  link_1_joint_1: -1.57
+  link_1_joint_2: -1.57
+
+  link_2_joint_1: -1.57
+  link_2_joint_2: -1.57
+
+  link_3_joint_1: -0.6
+  link_3_joint_2: -0.6
+
+  link_0_joint_3: -0.6
+  link_0_joint_4: -0.6
+
+  link_1_joint_3: -1.57
+  link_1_joint_4: -1.57
+
+  link_2_joint_3: -1.57
+  link_2_joint_4: -1.57
+
+  link_3_joint_3: -0.6
+  link_3_joint_4: -0.6
+
+  outer_shaft_1_1: -1.2
+  outer_shaft_1_2: 2.2
+  outer_segment_1_2: -1.2
+  
+
+  outer_shaft_2_1: 1.2
+  outer_shaft_2_2: -2.2
+  outer_segment_2_2: 1.2
+
+  # Free joints take 7 values: [qx, qy, qz, qw, x, y, z]
+  # Replace with your desired quaternion + position.
+  # root_free: [0, 0, 0, 1, 0, 0, 0]
+
+  # Ball joints take 4 values: [qx, qy, qz, qw]
+  # Uncomment and edit if you add a ball joint.
+  # hip_ball: [1, 0, 0, 0]

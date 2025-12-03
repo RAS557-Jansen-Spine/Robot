@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mujoco model="Leg">
+    <compiler inertiafromgeom="true" angle="radian"/>
+    <option timestep="0.001" gravity="0 0 -9.81" integrator="RK4"/>
+  <default>
+    <joint damping="0.1" armature="0.01"/>
+    <geom density="1000" friction="0.5 0.1 0.1"/>
+  </default>
+  
+    <asset>
+        <texture name="grid" type="2d" builtin="checker" width="512" height="512"
+            rgb1="0.95 0.95 0.95" rgb2="1 1 1"/>
+        <material name="floor_mat" texture="grid" texrepeat="50 50" specular="0.0"/>
+
+        <!-- Slightly extruded triangular face to avoid flat QHull degeneracy -->
+        <mesh name="tri_face_1" 
+            vertex="0 0 -0.0005    0.0401 0 -0.0005    0.03741 0.0414 -0.0005
+                  0 0 0.0005  0.0401 0 0.0005  0.03741 0.0414 0.0005"/>
+        <mesh name="tri_face_2" 
+            vertex="0 0 -0.0005    0.0657 0 -0.0005    0.02482 0.02701 -0.0005
+                  0 0 0.0005  0.0657 0 0.0005  0.02482 0.02701 0.0005"/>
+    </asset>
+
+    <worldbody>
+        <geom name="floor" type="plane" size="10 10 0.1" material="floor_mat" rgba="0.8 0.8 0.8 1"/>
+
+        <body name="chassis" pos="0 0 0.5">
+            <geom name="chassis_geom" type="box" size="0.05 0.05 0.02" 
+                pos="0 -0.01 0.02" 
+                rgba="0.2 0.2 0.2 1"/>
+
+            <body name="motor_rotor" pos="0.027 0.05 0.0098">
+
+                <joint name="motor_joint" type="hinge" axis="0 1 0" limited="false"/>
+
+                <geom name="motor_geom" type="cylinder" size="0.002 0.001" 
+                    pos="0 0 0" 
+                    mass="0.1"
+                    euler="1.57 0 0" 
+                    rgba="0.3 0.8 0.3 1"/>
+
+                <geom name="motor_arm" type="box" size="0.0075 0.0005 0.002" 
+                    pos="0.0075 0.0001 0" 
+                    mass="0.1"
+                    rgba="0.3 0.8 0.3 1"/>
+
+                <geom name="motor_arm_ext" type="cylinder" size="0.0001 0.015" 
+                    pos="0.0125 0.0165 0" 
+                    mass="0.1"
+                    euler="1.57 0 0" 
+                    rgba="0.3 0.8 0.3 1"/>
+
+                <body name="motor_end_1" pos="0.0125 0.03 0">
+
+                    <joint name="joint_6" type="hinge" axis="0 1 0" range="-180 180" limited="true"/>
+
+                    <geom name="motor_end_geom_1" type="box" size="0.004 0.015 0.0005" 
+                        pos="0.004 -0.012 0" 
+                        mass="0.1"
+                        rgba="0.3 0.8 0.3 1"/>
+                </body>
+
+                <body name="motor_end_2" pos="0.0125 0.03 0">
+
+                    <joint name="joint_7" type="hinge" axis="0 1 0" range="-180 180" limited="true"/>
+
+                    <geom name="motor_end_geom_2" type="box" size="0.004 0.015 0.0005" 
+                        pos="0.004 -0.012 0" 
+                        rgba="0.3 0.8 0.3 1"/>
+                </body>
+
+            </body>
+
+            <body name="hollow_wedge_1" pos="-0.05 0.0515 0" >
+
+                <joint name="rotatory" type="hinge" axis="0 1 0" pos="0.038 0 0.005" range="-180 180" limited="true"/>
+            
+                <geom name="rect_left" type="box" size="0.0279 0.015 0.0005" 
+                    pos="0.0187 0.015 0.0207" 
+                    euler="0 -0.836 0" 
+                    rgba="0.8 0.3 0.3 1"/>
+
+                <geom name="rect_right" type="box" size="0.02075 0.015 0.0005" 
+                    pos="0.03875 0.015 0.0207" 
+                    euler="0 1.506 0" 
+                    rgba="0.8 0.3 0.3 1"/>
+
+                <geom name="tri_front" type="mesh" mesh="tri_face_1" 
+                    pos="0 0 0" 
+                    euler="1.57 0 0" 
+                    rgba="0.8 0.3 0.3 1"/>
+
+                <geom name="tri_back" type="mesh" mesh="tri_face_1" 
+                    pos="0 0.03 0" 
+                    euler="1.57 0 0" 
+                    rgba="0.8 0.3 0.3 1"/>
+            
+                <geom name = "axil" type="cylinder" size="0.0005 0.005" 
+                    pos="0.038 0 0.002" 
+                    euler="1.57 0 0" 
+                    rgba="0.3 0.8 0.3 1"/>
+
+                <body name="link_0" pos="0.0401 0.015 0" axisangle="0 1 0 1.57">
+
+                    <joint name="joint_0" type="hinge" axis="0 1 0" range="-180 180" limited="true"/>
+
+                    <geom name="link_0_geom" type="box" size="0.0197 0.015 0.0005" 
+                        pos="0.0197 0 0" 
+                        rgba="0.3 0.3 0.8 1"/>
+                </body>
+
+                <body name="link_3" pos="0.03875 0.0075 0.0414">
+
+                    <joint name="joint_4" type="hinge" axis="0 1 0" range="-180 180" limited="true"/>
+
+                    <geom name="link_3_geom" type="box" size="0.025 0.0075 0.0005" 
+                        pos="0.025 0 0" 
+                        rgba="0.3 0.3 0.8 1"/>
+                </body>
+
+                <body name="link_1" pos="0 0.015 0" axisangle="0 1 0 1.57">
+
+                    <joint name="joint_1" type="hinge" axis="0 1 0" range="-180 180" limited="true"/>
+
+                    <geom name="link_1_geom" type="box" size="0.0197 0.015 0.0005" 
+                        pos="0.0197 0 0" 
+                        density="10"
+                        rgba="0.3 0.3 0.8 1"/>
+                
+                    <body name="hollow_wedge_2" pos="0.0394 0 0">
+
+                        <joint name="joint_2" type="hinge" axis="0 1 0" range="-180 180" limited="true"/>
+
+                        <geom name="rect_left_2" type="box" size="0.03285 0.015 0.0005" 
+                            pos="0.03285 0 0" 
+                            euler="0 0 0" 
+                            rgba="0.8 0.3 0.3 1"/>
+
+                        <geom name="rect_right_2" type="box" size="0.0245 0.015 0.0005" 
+                            pos="0.0452 0 0.0135" 
+                            euler="0 0.584 0" 
+                            rgba="0.8 0.3 0.3 1"/>
+
+                        <geom name="tri_front_2" type="mesh" mesh="tri_face_2" 
+                            pos="0 0.015 0" 
+                            euler="1.57 0 0" 
+                            rgba="0.8 0.3 0.3 1"/>
+
+                        <geom name="tri_back_2" type="mesh" mesh="tri_face_2" 
+                            pos="0 -0.015 0" 
+                            euler="1.57 0 0" 
+                            rgba="0.8 0.3 0.3 1"/>
+                        
+                        <body name="link_5" pos="0.02482 0 0.02703">
+
+                            <joint name="joint_5" type="hinge" axis="0 1 0" range="-180 180" limited="true"/>
+
+                            <geom name="link_5_geom" type="box" size="0.03095 0.0075 0.0005" 
+                                pos="0.03095 0.0075 0" 
+                                rgba="0.3 0.3 0.8 1"/>
+                        </body>
+
+                        <body name="link_2" pos="0.02482 0 0.02703" axisangle="0 1 0 -1.57">
+
+                            <joint name="joint_3" type="hinge" axis="0 1 0" range="-180 180" limited="true"/>
+
+                            <geom name="link_2_geom" type="box" size="0.001 0.015 0.0005" 
+                                pos="0 0 0" 
+                                rgba="0.3 0.3 0.8 1"/>
+                        </body>
+                    </body>
+                </body>
+            </body>
+        </body>
+
+    <camera name="cam" pos="0.1 -0.15 0.6" euler="0 0 0"/>
+    </worldbody>
+    <equality>
+    <weld name="weld1" active="true"
+        body1="link_0" body2="link_2"
+        relpose="0.0393 0 0 0 1 0 0"
+        anchor="0 0 0"/>
+    <weld name="weld2" active="true"
+        body1="link_3" body2="motor_end_1"
+        relpose="0.05 0 0 1 0 0 0"
+        anchor="0 0 0"/>
+    <weld name="weld3" active="true"
+        body1="link_5" body2="motor_end_2"
+        relpose="0.0619 0 0 1 0 0 0"
+        anchor="0 0 0"/>
+  </equality>
+
+  <actuator> 
+    <!-- Drive the primary motor hinge -->
+    <velocity name="vact" joint="motor_joint" kv="5" ctrlrange="-20 20"/>
+  </actuator>
+
+</mujoco>
