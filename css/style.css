@@ -29,6 +29,8 @@
     /* Typography */
     --font-header: 'Chakra Petch', sans-serif;
     --font-body: 'Rajdhani', sans-serif;
+    --font-mono: 'Courier New', monospace;
+    /* Fallback for technical look */
 
     /* Spacing */
     --space-xs: 0.5rem;
@@ -218,6 +220,40 @@ section {
     padding: var(--space-lg) 0;
     position: relative;
     border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    display: none;
+    /* Hide all sections by default */
+    animation: fadeInSection 0.5s ease-out;
+}
+
+section.active-section {
+    display: block;
+    /* Show active section */
+}
+
+/* Header is also a "section" in terms of visibility for tabs, 
+   but it has ID #hero. We need to handle it. 
+   Actually, let's make #hero a section too or handle it in JS.
+   For now, let's assume #hero is the "Home" tab. */
+#hero {
+    display: none;
+    animation: fadeInSection 0.5s ease-out;
+}
+
+#hero.active-section {
+    display: flex;
+    /* Hero uses flex */
+}
+
+@keyframes fadeInSection {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Components */
@@ -276,21 +312,40 @@ section {
     position: absolute;
     top: 0;
     left: 0;
-    width: 2px;
+    width: 4px;
     height: 100%;
-    background: linear-gradient(to bottom, var(--accent-secondary), transparent);
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    background: var(--accent-primary);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.3s ease;
 }
 
 .card:hover {
-    transform: translateY(-5px) scale(1.01);
-    border-color: rgba(0, 240, 255, 0.3);
+    transform: translateY(-5px);
+    border-color: var(--accent-primary);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 
 .card:hover::before {
-    opacity: 1;
+    transform: scaleY(1);
+    transform-origin: top;
+}
+
+/* Animations */
+@keyframes backgroundPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+}
+
+body::after {
+    animation: backgroundPulse 8s ease-in-out infinite;
 }
 
 /* Animations */
@@ -418,12 +473,15 @@ nav .container {
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
     align-items: center;
+    /* Vertically center content */
 }
 
 .grid-3 {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
+    align-items: start;
+    /* Align tops of cards */
 }
 
 /* Image Styling */
@@ -433,7 +491,13 @@ img {
     border-radius: var(--border-radius);
     border: 1px solid var(--bg-card-border);
     transition: all 0.3s ease;
-    filter: grayscale(20%);
+}
+
+.diagram {
+    filter: invert(1) hue-rotate(180deg) contrast(1.2);
+    mix-blend-mode: screen;
+    border: none;
+    /* Remove border for blended look */
 }
 
 figure:hover img {
@@ -442,18 +506,121 @@ figure:hover img {
     box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
 }
 
+/* Prototype Gallery */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--bg-card-border);
+    border-radius: var(--border-radius);
+    background: var(--bg-card);
+    transition: all 0.3s ease;
+    aspect-ratio: 4/3;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: none;
+    border-radius: 0;
+    transition: transform 0.5s ease;
+}
+
+.gallery-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background: rgba(10, 14, 20, 0.9);
+    border-top: 1px solid var(--bg-card-border);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-family: var(--font-mono);
+    /* Assuming mono font or fallback */
+    backdrop-filter: blur(4px);
+    transform: translateY(0);
+    transition: all 0.3s ease;
+}
+
+.gallery-item:hover {
+    border-color: var(--accent-secondary);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+.gallery-item:hover .gallery-caption {
+    color: var(--text-main);
+    background: rgba(10, 14, 20, 0.95);
+}
+
+/* Restored Figure Styles */
+figure:hover .diagram {
+    filter: invert(1) hue-rotate(180deg) contrast(1.2) drop-shadow(0 0 5px var(--accent-secondary));
+    box-shadow: none;
+}
+
 figure {
     margin: var(--space-md) 0;
 }
 
-figcaption {
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    margin-top: 0.5rem;
-    border-left: 2px solid var(--accent-primary);
-    padding-left: 1rem;
+/* Team Section */
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.team-member {
+    background: var(--bg-card);
+    border: 1px solid var(--bg-card-border);
+    padding: 2rem;
+    text-align: center;
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease;
+}
+
+.team-member:hover {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 20px rgba(204, 255, 0, 0.1);
+    transform: translateY(-5px);
+}
+
+.member-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--accent-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent-primary);
     font-family: var(--font-header);
+    box-shadow: 0 0 15px rgba(204, 255, 0, 0.2);
+}
+
+.member-role {
+    color: var(--accent-secondary);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
     letter-spacing: 1px;
+    font-weight: 600;
 }
 
 /* MathJax Overrides */

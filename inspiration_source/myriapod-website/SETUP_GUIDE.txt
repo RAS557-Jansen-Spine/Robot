@@ -1,0 +1,81 @@
+QUICK SETUP GUIDE FOR GITHUB PAGES
+===================================
+
+Your website is ready to deploy! Follow these simple steps:
+
+STEP 1: CREATE GITHUB REPOSITORY
+---------------------------------
+1. Go to https://github.com and log in
+2. Click the "+" icon (top right) → "New repository"
+3. Name it: myriapod-robot (or any name you want)
+4. Make it PUBLIC (required for free GitHub Pages)
+5. DON'T initialize with README (we already have one)
+6. Click "Create repository"
+
+STEP 2: UPLOAD FILES
+--------------------
+Option A - Web Interface (Easiest):
+1. On your new repository page, click "uploading an existing file"
+2. Drag and drop ALL files from the myriapod-website folder:
+   - index.html
+   - styles.css
+   - script.js
+   - README.md
+   - .gitignore
+   - images/ (entire folder)
+3. Add commit message: "Initial commit"
+4. Click "Commit changes"
+
+Option B - Command Line (If you prefer):
+1. Open terminal in the myriapod-website folder
+2. Run these commands (replace YOUR-USERNAME and YOUR-REPO):
+   
+   git init
+   git add .
+   git commit -m "Initial commit: Myriapod website"
+   git remote add origin https://github.com/YOUR-USERNAME/YOUR-REPO.git
+   git branch -M main
+   git push -u origin main
+
+STEP 3: ENABLE GITHUB PAGES
+----------------------------
+1. Go to your repository on GitHub
+2. Click "Settings" tab
+3. Click "Pages" in the left sidebar
+4. Under "Source":
+   - Select "Deploy from a branch"
+   - Select branch: main
+   - Select folder: / (root)
+5. Click "Save"
+
+STEP 4: ACCESS YOUR WEBSITE
+----------------------------
+Wait 2-3 minutes, then visit:
+https://YOUR-USERNAME.github.io/YOUR-REPO-NAME/
+
+Example: https://johnsmith.github.io/myriapod-robot/
+
+DONE! 🎉
+
+TROUBLESHOOTING
+---------------
+- If images don't load: Make sure the images/ folder was uploaded
+- If styles look broken: Clear browser cache (Ctrl+Shift+R)
+- If page doesn't load: Wait 5 minutes and try again
+- Still having issues? Check GitHub Pages status in Settings → Pages
+
+CUSTOMIZATION TIPS
+------------------
+- Want different colors? Edit the :root section in styles.css
+- Need to update content? Edit index.html
+- All changes will automatically update when you push to GitHub
+
+CONTACT
+-------
+Research Team:
+- Jeevan Hebbal Manjunath
+- Varun Karthik
+- Yeshwanth Reddy Gurreddy
+
+Arizona State University
+RAS 557: Foldable Robotics

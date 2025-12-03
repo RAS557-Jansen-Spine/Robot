@@ -18,12 +18,14 @@
         <div class="container">
             <div class="logo">BIO<span>MIMETIC</span> // 01</div>
             <div class="nav-links">
+                <a href="#hero">Home</a>
                 <a href="#abstract">Abstract</a>
-                <a href="#intro">Introduction</a>
                 <a href="#bio-basis">Bio-Basis</a>
                 <a href="#mechanism">Mechanism</a>
                 <a href="#math">Analysis</a>
+                <a href="#prototype">Prototype</a>
                 <a href="#validation">Validation</a>
+                <a href="#team">Team</a>
                 <a href="#references">References</a>
             </div>
         </div>
@@ -115,7 +117,7 @@
             <div class="grid-2">
                 <div class="reveal">
                     <figure>
-                        <img src="images/fig_concept.png" alt="Concept Schematic">
+                        <img src="images/fig_concept.png" alt="Concept Schematic" class="diagram">
                         <figcaption>Fig 1. Schematic of the proposed robotic system inspired by the centipede body plan.
                         </figcaption>
                     </figure>
@@ -197,30 +199,10 @@
                 </div>
                 <div class="reveal">
                     <figure>
-                        <img src="images/fig_spine.png" alt="Spine Model">
+                        <img src="images/fig_spine.png" alt="Spine Model" class="diagram">
                         <figcaption>Fig 2. Digital model of the Sarrus linkage spine segment. The flexure geometry
                             allows for turning compliance while resisting vertical bending.</figcaption>
                     </figure>
-                </div>
-            </div>
-
-            <div class="grid-2">
-                <div class="reveal">
-                    <figure>
-                        <img src="images/fig_prototype.png" alt="Physical Prototype">
-                        <figcaption>Fig 3. Preliminary physical prototype constructed from cardstock. Validates folding
-                            patterns and range of motion.</figcaption>
-                    </figure>
-                </div>
-                <div class="reveal">
-                    <h3>Jansen Leg Implementation</h3>
-                    <p>Unlike the simple rotary legs of the baseline, the Jansen linkage provides a deterministic foot
-                        path with a <strong>high lift phase (swing)</strong> and a <strong>linear traction phase
-                            (stance)</strong>.</p>
-                    <p>The linkage is implemented as an 8-bar planar mechanism compatible with SCM laminate fabrication.
-                        Preliminary prototyping confirmed that the Jansen linkage prevents mechanical singularity within
-                        the target workspace and that the hybrid spine facilitates a tripod gait without
-                        hyper-extension.</p>
                 </div>
             </div>
         </div>
@@ -267,20 +249,48 @@
                 </p>
             </div>
 
-            <div class="grid-2" style="margin-top: var(--space-md);">
-                <div class="reveal">
-                    <figure>
-                        <img src="images/fig_kinematics.png" alt="Kinematics Diagram">
-                        <figcaption>Fig 4. Kinematic diagram and simulated foot trajectory of the Jansen linkage.
-                        </figcaption>
-                    </figure>
+            <div class="reveal" style="margin-top: var(--space-md); text-align: center;">
+                <figure style="max-width: 800px; margin: 0 auto;">
+                    <img src="images/fig_gait.jpg" alt="Gait States">
+                    <figcaption>Fig 5. Simulation of kinematic configurations at key gait events (Touchdown, Mid-stance,
+                        Lift-off).</figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <section id="prototype">
+        <div class="container">
+            <h2 class="reveal">Prototype Development</h2>
+            <p class="reveal" style="margin-bottom: var(--space-md); max-width: 800px;">
+                Physical implementation using Smart Composite Microstructures (SCM) fabrication techniques with
+                laser-machined cardstock and Kapton flexural hinges.
+            </p>
+
+            <div class="gallery-grid reveal">
+                <div class="gallery-item">
+                    <img src="images/fig_prototype.png" alt="Complete prototype assembly">
+                    <div class="gallery-caption">Complete prototype assembly</div>
                 </div>
-                <div class="reveal">
-                    <figure>
-                        <img src="images/fig_gait.jpg" alt="Gait States">
-                        <figcaption>Fig 5. Simulation of kinematic configurations at key gait events (Touchdown,
-                            Mid-stance, Lift-off).</figcaption>
-                    </figure>
+                <div class="gallery-item">
+                    <img src="images/spine_prototype_1.jpg" alt="Spine mechanism detail">
+                    <div class="gallery-caption">Spine mechanism detail</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/spine_prototype_1_scraps.jpg" alt="SCM fabrication components">
+                    <div class="gallery-caption">SCM fabrication components</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/leg_design.jpg" alt="Jansen linkage leg mechanism">
+                    <div class="gallery-caption">Jansen linkage leg mechanism</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/leg_design_1.jpg" alt="Assembled leg linkage">
+                    <div class="gallery-caption">Assembled leg linkage</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/leg_scrap.jpg" alt="Laser-cut leg components">
+                    <div class="gallery-caption">Laser-cut leg components</div>
                 </div>
             </div>
         </div>
@@ -356,17 +366,21 @@
             <div class="card reveal" style="font-size: 0.9rem; color: var(--text-muted);">
                 <ol>
                     <li>K. L. Hoffman and R. J. Wood, "Myriapod-like ambulation of a segmented microrobot,"
-                        <em>Autonomous Robots</em>, vol. 31, pp. 103–114, 2011.</li>
+                        <em>Autonomous Robots</em>, vol. 31, pp. 103–114, 2011.
+                    </li>
                     <li>Z. Liu, et al., "Kinematics, dynamics and control of stiffness-tunable soft robots,"
-                        <em>Bioinspiration & Biomimetics</em>, vol. 19, no. 2, 2024.</li>
+                        <em>Bioinspiration & Biomimetics</em>, vol. 19, no. 2, 2024.
+                    </li>
                     <li>Z. Bing, et al., "Lateral flexion of a compliant spine improves motor performance in a
                         bioinspired mouse robot," <em>Science Robotics</em>, vol. 8, no. 8, 2023.</li>
                     <li>P. Billeschou, et al., "Framework for developing bio-inspired morphologies for walking robots,"
-                        <em>Applied Sciences</em>, vol. 10, no. 19, p. 6986, 2020.</li>
+                        <em>Applied Sciences</em>, vol. 10, no. 19, p. 6986, 2020.
+                    </li>
                     <li>S. E. Nodehi, et al., "Porcospino Flex: a bio-inspired single-track robot with a 3D-printed,
                         flexible, compliant vertebral column," <em>Robotics</em>, vol. 13, no. 5, p. 76, 2024.</li>
                     <li>A. M. Hoover and R. S. Fearing, "A fast scale prototyping process for folded millirobots," in
-                        <em>Proc. IEEE Int. Conf. Robotics and Automation (ICRA)</em>, 2008.</li>
+                        <em>Proc. IEEE Int. Conf. Robotics and Automation (ICRA)</em>, 2008.
+                    </li>
                     <li>C. D. Önal, "Design and fabrication of a foldable hexapod robot towards experimental swarm
                         applications," in <em>Proc. IEEE Int. Conf. Robotics and Automation (ICRA)</em>, 2014.</li>
                     <li>V. Dürr, et al., "Integrative biomimetics of autonomous hexapedal locomotion," <em>Frontiers in
