@@ -227,7 +227,8 @@ section {
    Actually, let's make #hero a section too or handle it in JS.
    For now, let's assume #hero is the "Home" tab. */
 #hero {
-    display: flex; /* Hero uses flex */
+    display: flex;
+    /* Hero uses flex */
     animation: fadeInSection 0.5s ease-out;
 }
 
@@ -621,10 +622,22 @@ mjx-container {
 /* Footer */
 footer {
     border-top: 1px solid var(--bg-card-border);
-    padding: var(--space-lg) 0;
+    padding: var(--space-md) 0;
     text-align: center;
     color: var(--text-muted);
     background: #000;
+}
+
+footer p {
+    max-width: 100%;
+}
+
+.footer-credit {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    color: var(--accent-secondary);
+    font-family: var(--font-mono);
+    opacity: 0.8;
 }
 
 /* Responsive */
