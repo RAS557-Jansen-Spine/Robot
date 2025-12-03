@@ -220,14 +220,6 @@ section {
     padding: var(--space-lg) 0;
     position: relative;
     border-bottom: 1px solid rgba(255, 255, 255, 0.02);
-    display: none;
-    /* Hide all sections by default */
-    animation: fadeInSection 0.5s ease-out;
-}
-
-section.active-section {
-    display: block;
-    /* Show active section */
 }
 
 /* Header is also a "section" in terms of visibility for tabs, 
@@ -235,13 +227,8 @@ section.active-section {
    Actually, let's make #hero a section too or handle it in JS.
    For now, let's assume #hero is the "Home" tab. */
 #hero {
-    display: none;
+    display: flex; /* Hero uses flex */
     animation: fadeInSection 0.5s ease-out;
-}
-
-#hero.active-section {
-    display: flex;
-    /* Hero uses flex */
 }
 
 @keyframes fadeInSection {

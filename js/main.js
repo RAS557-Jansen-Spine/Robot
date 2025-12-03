@@ -1,99 +1,47 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // Scroll Reveal Animation
-    const revealElements = document.querySelectorAll('.reveal');
+    const reveals = document.querySelectorAll('.reveal');
 
-    const revealObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-                // Optional: Stop observing once revealed
-                // observer.unobserve(entry.target);
+    const revealOnScroll = () => {
+        const windowHeight = window.innerHeight;
+        const elementVisible = 150;
+
+        reveals.forEach((reveal) => {
+            const elementTop = reveal.getBoundingClientRect().top;
+
+            if (elementTop < windowHeight - elementVisible) {
+                reveal.classList.add('active');
             }
         });
-    }, {
-        root: null,
-        threshold: 0.15, // Trigger when 15% of the element is visible
-        rootMargin: "0px"
-    });
+    };
 
-    revealElements.forEach(el => revealObserver.observe(el));
+    window.addEventListener('scroll', revealOnScroll);
+    revealOnScroll(); // Trigger once on load
 
-    const navLinks = document.querySelectorAll('.nav-links a');
+    // Active Nav Link Updater (Scroll Spy)
     const sections = document.querySelectorAll('section, header#hero');
+    const navLinks = document.querySelectorAll('.nav-links a');
 
-    function switchTab(targetId) {
-        // Hide all sections
+    window.addEventListener('scroll', () => {
+        let current = '';
         sections.forEach(section => {
-            section.classList.remove('active-section');
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (window.scrollY >= (sectionTop - sectionHeight / 3)) {
+                current = section.getAttribute('id');
+            }
         });
 
-        // Deactivate all links
         navLinks.forEach(link => {
             link.classList.remove('active');
-        });
-
-        // Show target section
-        const targetSection = document.querySelector(targetId);
-        if (targetSection) {
-            targetSection.classList.add('active-section');
-        }
-
-        // Activate target link
-        const targetLink = document.querySelector(`.nav-links a[href="${targetId}"]`);
-        if (targetLink) {
-            targetLink.classList.add('active');
-        }
-
-        // Special case: If target is #hero (Home), activate the Home link (if we add one)
-        // or just ensure the logo click works.
-    }
-
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = link.getAttribute('href');
-            switchTab(targetId);
-        });
-    });
-
-    // Handle Logo Click -> Go to Home (#hero)
-    const logo = document.querySelector('.logo');
-    if (logo) {
-        logo.style.cursor = 'pointer';
-        logo.addEventListener('click', () => {
-            switchTab('#hero');
-        });
-    }
-
-    // Initialize: Check hash or default to #hero
-    const initialHash = window.location.hash;
-    if (initialHash && document.querySelector(initialHash)) {
-        switchTab(initialHash);
-    } else {
-        switchTab('#hero');
-    }
-
-    // Trigger animations for elements inside the active section
-    // We can just add 'active' to .reveal elements in the active section
-    const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-            if (mutation.target.classList.contains('active-section')) {
-                const reveals = mutation.target.querySelectorAll('.reveal');
-                reveals.forEach((reveal, index) => {
-                    setTimeout(() => {
-                        reveal.classList.add('active');
-                    }, index * 100);
-                });
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
             }
         });
     });
 
-    sections.forEach(section => {
-        observer.observe(section, { attributes: true, attributeFilter: ['class'] });
-    });
-
-    // Navbar Background on Scroll (Optional for tabs, but good for polish)
+    // Navbar Background on Scroll
     const nav = document.querySelector('nav');
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
@@ -105,4 +53,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Initialize Lenis Smooth Scroll
+    const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        direction: 'vertical',
+        gestureDirection: 'vertical',
+        smooth: true,
+        mouseMultiplier: 1,
+        smoothTouch: false,
+        touchMultiplier: 2,
+    });
+
+    function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    // Integrate Lenis with Scroll Spy and Reveal
+    // Lenis takes over scrolling, but window 'scroll' event still fires.
+    // However, for anchor links, we need to tell Lenis to scroll to the target.
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            lenis.scrollTo(this.getAttribute('href'));
+        });
+    });
 });
