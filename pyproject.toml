@@ -9,4 +9,5 @@ dependencies = [
     "mujoco>=3.3.6",
     "pyyaml>=6.0.3",
     "stable-baselines3[extra]>=2.7.0",
+    "matplotlib>=3.8.0",
 ]

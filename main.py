@@ -7,6 +7,7 @@ import mujoco
 import numpy as np
 from mujoco import viewer
 
+from live_plotter import LivePlotter
 from model_builder import build_model, prettify
 from robot_env import RobotEnv
 
@@ -92,6 +93,13 @@ def cmd_view(args):
     init_qpos = _load_init_qpos_from_yaml(args.config)
     _apply_initial_positions(model, data, init_qpos)
 
+    # Live Plotter
+    plotter = None
+    if args.plot:
+        # Assuming 4 motors based on RobotConfig
+        plotter = LivePlotter(num_motors=4)
+        plotter.start()
+
     print("Launching viewer... Press Ctrl+C to exit.")
     try:
         with viewer.launch_passive(model, data) as v:
@@ -121,6 +129,37 @@ def cmd_view(args):
 
                 mujoco.mj_step(model, data)
                 v.sync()
+
+                if plotter:
+                    # Extract motor qpos/qvel (assuming 4 motors after 7 free joint dofs)
+                    if model.nq >= 11:
+                        motor_qpos = data.qpos[7:11]
+                        motor_qvel = data.qvel[6:10]
+
+                        # Motor Control & Forces
+                        # Assuming 4 actuators
+                        if data.ctrl.shape[0] >= 4:
+                            ctrl = data.ctrl[:4]
+                            qfrc = data.qfrc_actuator[
+                                6:10
+                            ]  # Forces on the 4 motor joints
+                        else:
+                            ctrl = np.zeros(4)
+                            qfrc = np.zeros(4)
+
+                        # Base Pos & Quat
+                        base_pos = data.qpos[:3]
+                        base_quat = data.qpos[3:7]
+
+                        plotter.put_data(
+                            data.time,
+                            motor_qpos,
+                            motor_qvel,
+                            ctrl,
+                            qfrc,
+                            base_pos,
+                            base_quat,
+                        )
     except RuntimeError as exc:
         if "launch_passive" in str(exc) and "mjpython" in str(exc):
             print(
@@ -130,6 +169,9 @@ def cmd_view(args):
             raise
     except KeyboardInterrupt:
         pass
+    finally:
+        if plotter:
+            plotter.stop()
 
 
 # ==========================================
@@ -213,12 +255,47 @@ def cmd_run(args):
         return
 
     obs, _ = env.reset()
+    obs, _ = env.reset()
+
+    # Live Plotter
+    plotter = None
+    if args.plot:
+        plotter = LivePlotter(num_motors=4)
+        plotter.start()
+
     print("Running agent... Press Ctrl+C to stop.")
     try:
         while True:
             action, _ = model.predict(obs, deterministic=True)
             obs, _, terminated, truncated, _ = env.step(action)
+            obs, _, terminated, truncated, _ = env.step(action)
             env.render()
+
+            if plotter:
+                if env.model.nq >= 11:
+                    motor_qpos = env.data.qpos[7:11]
+                    motor_qvel = env.data.qvel[6:10]
+
+                    if env.data.ctrl.shape[0] >= 4:
+                        ctrl = env.data.ctrl[:4]
+                        qfrc = env.data.qfrc_actuator[6:10]
+                    else:
+                        ctrl = np.zeros(4)
+                        qfrc = np.zeros(4)
+
+                    base_pos = env.data.qpos[:3]
+                    base_quat = env.data.qpos[3:7]
+
+                    plotter.put_data(
+                        env.data.time,
+                        motor_qpos,
+                        motor_qvel,
+                        ctrl,
+                        qfrc,
+                        base_pos,
+                        base_quat,
+                    )
+
             if terminated or truncated:
                 obs, _ = env.reset()
                 time.sleep(1.0)
@@ -226,6 +303,8 @@ def cmd_run(args):
         print("\nStopped.")
     finally:
         env.close()
+        if plotter:
+            plotter.stop()
 
 
 # ==========================================
@@ -266,6 +345,7 @@ def main():
         help="Init qpos config",
     )
     p_view.add_argument("--demo-spin", action="store_true", help="Spin motors for demo")
+    p_view.add_argument("--plot", action="store_true", help="Enable live plotting")
     p_view.set_defaults(func=cmd_view)
 
     # Check
@@ -293,6 +373,7 @@ def main():
     p_run.add_argument(
         "--load-path", default="ppo_robot_walker", help="Path to load model"
     )
+    p_run.add_argument("--plot", action="store_true", help="Enable live plotting")
     p_run.set_defaults(func=cmd_run)
 
     args = parser.parse_args()
