@@ -41,8 +41,70 @@ def move_all_motors(speed_percent):
     in_back_2.value(0)
 
 
+import struct
+
+from machine import I2C
+
+# --- IMU SETUP (BNO055) ---
+ADDR = 0x28
+I2C_FREQ = 100000
+MODE = 0x08  # IMU mode
+
+
+def _init_i2c():
+    try:
+        return I2C(0, scl=Pin(22), sda=Pin(21), freq=I2C_FREQ)
+    except:
+        return I2C(1, scl=Pin(22), sda=Pin(21), freq=I2C_FREQ)
+
+
+def rb(i2c, reg, n=1):
+    return i2c.readfrom_mem(ADDR, reg, n)
+
+
+def wb(i2c, reg, v):
+    i2c.writeto_mem(ADDR, reg, bytes([v & 0xFF]))
+
+
+def set_mode(i2c, m):
+    wb(i2c, 0x3D, m)
+    time.sleep_ms(100)
+
+
+def read_euler_deg(i2c):
+    data = rb(i2c, 0x1A, 6)
+    h, r, p = struct.unpack("<hhh", data)
+    return (h / 16.0, r / 16.0, p / 16.0)
+
+
 # --- LOOP ---
+# Initialize IMU
+print("# Initializing IMU...")
+try:
+    i2c = _init_i2c()
+    set_mode(i2c, MODE)
+    print("# IMU Ready.")
+except Exception as e:
+    print(f"# IMU Failed: {e}")
+    i2c = None
+
+print("# t_ms,heading,roll,pitch")
+t0 = time.ticks_ms()
+
 while True:
-    # Use 100% speed because 4 AA batteries are weak
+    # 1. Drive Motors
     move_all_motors(100)
-    time.sleep(1)
+
+    # 2. Read IMU
+    h, r, p = 0.0, 0.0, 0.0
+    if i2c:
+        try:
+            h, r, p = read_euler_deg(i2c)
+        except:
+            pass
+
+    # 3. Stream Data
+    t = time.ticks_diff(time.ticks_ms(), t0)
+    print(f"{t},{h:.2f},{r:.2f},{p:.2f}")
+
+    time.sleep_ms(100)
