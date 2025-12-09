@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Defined Tabs matching IDs in HTML
     const tabs = ['overview', 'design', 'analysis', 'project01', 'team', 'gallery', 'references'];
 
-    const navLinks = document.querySelectorAll('.nav-links a');
+    const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
     const initBtn = document.getElementById('init-system-btn');
 
     // Function to switch tabs

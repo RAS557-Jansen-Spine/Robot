@@ -13,9 +13,9 @@
 \citation{Hoffman2011}
 \citation{Hoffman2011}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.3}From Reference Centipede Microrobot to Our Design}{5}{subsection.1.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces The reference myriapod microrobot architecture by Hoffman and Wood \cite  {Hoffman2011} which serves as the design inspiration for our segmented morphology. Note the use of sarrus linkages in the spine, which we have evolved into a Cross-Axis Flexure design.}}{5}{figure.caption.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces The reference myriapod microrobot architecture by Hoffman and Wood \cite  {Hoffman2011} which serves as the design inspiration for our segmented morphology. Note the use of sarrus linkages in the spine, which we have evolved into a simplified laminate design.}}{5}{figure.caption.2}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:myriapod_reference}{{1}{5}{The reference myriapod microrobot architecture by Hoffman and Wood \cite {Hoffman2011} which serves as the design inspiration for our segmented morphology. Note the use of sarrus linkages in the spine, which we have evolved into a Cross-Axis Flexure design}{figure.caption.2}{}}
+\newlabel{fig:myriapod_reference}{{1}{5}{The reference myriapod microrobot architecture by Hoffman and Wood \cite {Hoffman2011} which serves as the design inspiration for our segmented morphology. Note the use of sarrus linkages in the spine, which we have evolved into a simplified laminate design}{figure.caption.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.4}Research Objectives and Methodology}{5}{subsection.1.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {2}Robot Architecture and Design}{6}{section.2}\protected@file@percent }
 \newlabel{sec:architecture}{{2}{6}{Robot Architecture and Design}{section.2}{}}
@@ -23,106 +23,116 @@
 \newlabel{fig:robot-overview}{{2}{6}{Overall view of the four-legged myriapod-inspired robot. The Jansen legs are mounted on a central chassis, which is internally connected by a truncated Sarrus-like multi-hinge spine}{figure.caption.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Baseline Myriapod Template}{6}{subsection.2.1}\protected@file@percent }
 \newlabel{subsec:baseline}{{2.1}{6}{Baseline Myriapod Template}{subsection.2.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Jansen Linkage Locomotion}{7}{subsection.2.2}\protected@file@percent }
-\newlabel{subsec:jansen}{{2.2}{7}{Jansen Linkage Locomotion}{subsection.2.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Jansen Linkage Locomotion}{6}{subsection.2.2}\protected@file@percent }
+\newlabel{subsec:jansen}{{2.2}{6}{Jansen Linkage Locomotion}{subsection.2.2}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Jansen leg mechanism: (a) Eight-bar linkage schematic driven by a single crank angle $\phi $, producing an ovoid foot trajectory with a flat stance segment. (b) Physical implementation folded into a laminate structure. (c) Kinematic analysis of the Jansen linkage.}}{7}{figure.caption.4}\protected@file@percent }
 \newlabel{fig:jansen-kinematics}{{3}{7}{Jansen leg mechanism: (a) Eight-bar linkage schematic driven by a single crank angle $\phi $, producing an ovoid foot trajectory with a flat stance segment. (b) Physical implementation folded into a laminate structure. (c) Kinematic analysis of the Jansen linkage}{figure.caption.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Parallel Articulation Mechanism (PAM) Spine}{8}{subsection.2.3}\protected@file@percent }
-\newlabel{subsec:spine}{{2.3}{8}{Parallel Articulation Mechanism (PAM) Spine}{subsection.2.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces The fabricated rigid-link spine mechanism. The length $L$ is adjusted by changing the mounting points of the central wedge segments.}}{9}{figure.caption.5}\protected@file@percent }
-\newlabel{fig:spine}{{4}{9}{The fabricated rigid-link spine mechanism. The length $L$ is adjusted by changing the mounting points of the central wedge segments}{figure.caption.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Electronics and Actuation}{10}{subsection.2.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3}MuJoCo Dynamic Model}{10}{section.3}\protected@file@percent }
-\newlabel{sec:mujoco-model}{{3}{10}{MuJoCo Dynamic Model}{section.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Code Repository}{10}{subsection.3.1}\protected@file@percent }
-\newlabel{subsec:code-repository}{{3.1}{10}{Code Repository}{subsection.3.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Model Organization}{10}{subsection.3.2}\protected@file@percent }
-\newlabel{subsec:model-organization}{{3.2}{10}{Model Organization}{subsection.3.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Link Geometry and Mass Properties}{11}{subsection.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Parallel Articulation Mechanism (PAM) Spine}{7}{subsection.2.3}\protected@file@percent }
+\newlabel{subsec:spine}{{2.3}{7}{Parallel Articulation Mechanism (PAM) Spine}{subsection.2.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces The fabricated rigid-link spine mechanism. The length $L$ is adjusted by changing the mounting points of the central wedge segments.}}{8}{figure.caption.5}\protected@file@percent }
+\newlabel{fig:spine}{{4}{8}{The fabricated rigid-link spine mechanism. The length $L$ is adjusted by changing the mounting points of the central wedge segments}{figure.caption.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Electronics and Actuation}{9}{subsection.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Analytical Kinematics of the Spine}{9}{section.3}\protected@file@percent }
+\newlabel{sec:analytical_kinematics}{{3}{9}{Analytical Kinematics of the Spine}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Variables, Link Vectors, and Points}{9}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Loop-Closure Constraints}{9}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Jacobian and Force/Velocity Mapping}{10}{subsection.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}MuJoCo Dynamic Model}{10}{section.4}\protected@file@percent }
+\newlabel{sec:mujoco-model}{{4}{10}{MuJoCo Dynamic Model}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Code Repository}{10}{subsection.4.1}\protected@file@percent }
+\newlabel{subsec:code-repository}{{4.1}{10}{Code Repository}{subsection.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Model Organization}{10}{subsection.4.2}\protected@file@percent }
+\newlabel{subsec:model-organization}{{4.2}{10}{Model Organization}{subsection.4.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Link Geometry and Mass Properties}{11}{subsection.4.3}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Geometric and Inertial Properties of Robot Links}}{11}{table.caption.6}\protected@file@percent }
 \newlabel{tab:link-props}{{1}{11}{Geometric and Inertial Properties of Robot Links}{table.caption.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Actuator and Motor Modeling}{11}{subsection.3.4}\protected@file@percent }
-\newlabel{subsec:motor-modeling}{{3.4}{11}{Actuator and Motor Modeling}{subsection.3.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Simulation Parameters}{12}{subsection.3.5}\protected@file@percent }
-\newlabel{subsec:sim-params}{{3.5}{12}{Simulation Parameters}{subsection.3.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Actuator and Motor Modeling}{11}{subsection.4.4}\protected@file@percent }
+\newlabel{subsec:motor-modeling}{{4.4}{11}{Actuator and Motor Modeling}{subsection.4.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Simulation Parameters}{12}{subsection.4.5}\protected@file@percent }
+\newlabel{subsec:sim-params}{{4.5}{12}{Simulation Parameters}{subsection.4.5}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Key MuJoCo Simulation Parameters and Physical Justification}}{13}{table.caption.7}\protected@file@percent }
 \newlabel{tab:mujoco-params}{{2}{13}{Key MuJoCo Simulation Parameters and Physical Justification}{table.caption.7}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces MuJoCo model views: (a) Overall isometric perspective showing chassis, spine, and motor assemblies. (b) Side view highlighting Jansen leg mechanism and ground contact. (c) Top view showing the modified spine configuration.}}{14}{figure.caption.8}\protected@file@percent }
 \newlabel{fig:mujoco-views}{{5}{14}{MuJoCo model views: (a) Overall isometric perspective showing chassis, spine, and motor assemblies. (b) Side view highlighting Jansen leg mechanism and ground contact. (c) Top view showing the modified spine configuration}{figure.caption.8}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Optimization of Length and Stiffness}{14}{section.4}\protected@file@percent }
-\newlabel{sec:optimization}{{4}{14}{Optimization of Length and Stiffness}{section.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Optimization Setup}{14}{subsection.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Optimization Results}{14}{subsection.4.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Parameter optimization results for the inner shaft dimensions. (a) The plot compares the initial guesses (gray) with the final optimal values (green) against the hidden target values (red crosses). (b) The optimization process convergence. The close alignment between the optimal and target values confirms the validity of the optimization routine.}}{15}{figure.caption.9}\protected@file@percent }
-\newlabel{fig:opt_results}{{6}{15}{Parameter optimization results for the inner shaft dimensions. (a) The plot compares the initial guesses (gray) with the final optimal values (green) against the hidden target values (red crosses). (b) The optimization process convergence. The close alignment between the optimal and target values confirms the validity of the optimization routine}{figure.caption.9}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Simulation Verification}{15}{subsection.4.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces MuJoCo simulation snapshot of the robot using the optimized spine parameters. The robot exhibits a stable posture with no visible "fishtailing," confirming that the optimized geometry ($50$ mm length) provides the necessary restorative forces to counteract the alternating leg impulses.}}{15}{figure.caption.10}\protected@file@percent }
-\newlabel{fig:sim_stable}{{7}{15}{MuJoCo simulation snapshot of the robot using the optimized spine parameters. The robot exhibits a stable posture with no visible "fishtailing," confirming that the optimized geometry ($50$ mm length) provides the necessary restorative forces to counteract the alternating leg impulses}{figure.caption.10}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Conclusion}{15}{subsection.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5}Manufacturing Planning and Robot Fabrication}{16}{section.5}\protected@file@percent }
-\newlabel{sec:fabrication}{{5}{16}{Manufacturing Planning and Robot Fabrication}{section.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Code Repository}{16}{subsection.5.1}\protected@file@percent }
-\newlabel{subsec:code-repository}{{5.1}{16}{Code Repository}{subsection.5.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Mechanism Definition and 2D Layout (DXF)}{16}{subsection.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.1}Color-Coded Layers}{16}{subsubsection.5.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.2}Design for Variable Parameter in Hardware}{16}{subsubsection.5.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Design Parameter Study and Sensitivity}{14}{section.5}\protected@file@percent }
+\newlabel{sec:optimization}{{5}{14}{Design Parameter Study and Sensitivity}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Solver Validation and Parameter Recovery}{14}{subsection.5.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Solver validation results. (a) The optimizer successfully converges independent initial guesses (gray) to the specific target values (green). (b) The objective function reduction confirms the solver's ability to satisfy the kinematic constraints.}}{15}{figure.caption.9}\protected@file@percent }
+\newlabel{fig:opt_results}{{6}{15}{Solver validation results. (a) The optimizer successfully converges independent initial guesses (gray) to the specific target values (green). (b) The objective function reduction confirms the solver's ability to satisfy the kinematic constraints}{figure.caption.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Design Selection}{15}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Simulation Verification}{15}{subsection.5.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces MuJoCo simulation snapshot of the robot using the validated spine parameters ($L=50$mm). The robot maintains a consistent heading, confirming that the parameter set minimizes the $\text  {RMS}(\psi )$ term in the objective function.}}{15}{figure.caption.10}\protected@file@percent }
+\newlabel{fig:sim_stable}{{7}{15}{MuJoCo simulation snapshot of the robot using the validated spine parameters ($L=50$mm). The robot maintains a consistent heading, confirming that the parameter set minimizes the $\text {RMS}(\psi )$ term in the objective function}{figure.caption.10}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Manufacturing Planning and Robot Fabrication}{15}{section.6}\protected@file@percent }
+\newlabel{sec:fabrication}{{6}{15}{Manufacturing Planning and Robot Fabrication}{section.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Code Repository (Fabrication)}{16}{subsection.6.1}\protected@file@percent }
+\newlabel{subsec:fab-code-repository}{{6.1}{16}{Code Repository (Fabrication)}{subsection.6.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Mechanism Definition and 2D Layout (DXF)}{16}{subsection.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.1}Color-Coded Layers}{16}{subsubsection.6.2.1}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces 2D DXF layout showing color-coded layers for cuts (red), hinges (blue), and mounts (green).}}{17}{figure.caption.11}\protected@file@percent }
 \newlabel{fig:dxf_layout}{{8}{17}{2D DXF layout showing color-coded layers for cuts (red), hinges (blue), and mounts (green)}{figure.caption.11}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Multi-Layer Manufacturing Process}{17}{subsection.5.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Laser Cutting, Lamination, and Folding Sequence}{17}{subsection.5.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Modular spine design allowing for variable length and stiffness parameters.}}{18}{figure.caption.12}\protected@file@percent }
-\newlabel{fig:spine_variants}{{9}{18}{Modular spine design allowing for variable length and stiffness parameters}{figure.caption.12}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Integration of Jansen Linkage Legs}{18}{subsection.5.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.2}Design for Variable Parameter in Hardware}{17}{subsubsection.6.2.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Modular spine design allowing for variable length and stiffness parameters.}}{17}{figure.caption.12}\protected@file@percent }
+\newlabel{fig:spine_variants}{{9}{17}{Modular spine design allowing for variable length and stiffness parameters}{figure.caption.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Multi-Layer Manufacturing Process}{18}{subsection.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Laser Cutting, Lamination, and Folding Sequence}{18}{subsection.6.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}Integration of Jansen Linkage Legs}{18}{subsection.6.5}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Jansen Mechanism Link Lengths (mm)}}{18}{table.caption.13}\protected@file@percent }
 \newlabel{tab:link_lengths}{{3}{18}{Jansen Mechanism Link Lengths (mm)}{table.caption.13}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces The 5-layer SCM manufacturing sequence: laser cutting, lamination, and release.}}{19}{figure.caption.14}\protected@file@percent }
 \newlabel{fig:manufacturing_process}{{10}{19}{The 5-layer SCM manufacturing sequence: laser cutting, lamination, and release}{figure.caption.14}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.6}Assembly of Modified Spine}{19}{subsection.5.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.7}DC Motor Mounting and Mechanical Tuning}{19}{subsection.5.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.7.1}Initial Manufacturing Challenges}{19}{subsubsection.5.7.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.7.2}Updated Design and Improvements}{20}{subsubsection.5.7.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.6}Assembly of Modified Spine}{19}{subsection.6.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.7}DC Motor Mounting and Mechanical Tuning}{19}{subsection.6.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.7.1}Initial Manufacturing Challenges}{19}{subsubsection.6.7.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.7.2}Updated Design and Improvements}{20}{subsubsection.6.7.2}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces 3D printed motor mounts and couplers designed for FDM manufacturing.}}{20}{figure.caption.15}\protected@file@percent }
 \newlabel{fig:motor_mounts}{{11}{20}{3D printed motor mounts and couplers designed for FDM manufacturing}{figure.caption.15}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.8}ESP32 Integration and Gait Programming}{20}{subsection.5.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.9}Code Repository}{20}{subsection.5.9}\protected@file@percent }
-\newlabel{subsec:code-repository}{{5.9}{20}{Code Repository}{subsection.5.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.8}ESP32 Integration and Gait Programming}{20}{subsection.6.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.9}Code Repository (Motor Control)}{20}{subsection.6.9}\protected@file@percent }
+\newlabel{subsec:motor-code-repository}{{6.9}{20}{Code Repository (Motor Control)}{subsection.6.9}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces The fully assembled bio-inspired robot showing the SCM Jansen legs, diamond spine, and Hardware.}}{21}{figure.caption.16}\protected@file@percent }
 \newlabel{fig:assembled_robot}{{12}{21}{The fully assembled bio-inspired robot showing the SCM Jansen legs, diamond spine, and Hardware}{figure.caption.16}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Experimental Methods}{21}{section.6}\protected@file@percent }
-\newlabel{sec:experiments}{{6}{21}{Experimental Methods}{section.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Prototype Variants and Design Variable Realization}{21}{subsection.6.1}\protected@file@percent }
-\newlabel{subsec:variants}{{6.1}{21}{Prototype Variants and Design Variable Realization}{subsection.6.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Testbed and Instrumentation}{21}{subsection.6.2}\protected@file@percent }
-\newlabel{subsec:testbed}{{6.2}{21}{Testbed and Instrumentation}{subsection.6.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Experimental Protocol}{21}{subsection.6.3}\protected@file@percent }
-\newlabel{subsec:protocol}{{6.3}{21}{Experimental Protocol}{subsection.6.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Experimental Methods}{21}{section.7}\protected@file@percent }
+\newlabel{sec:experiments}{{7}{21}{Experimental Methods}{section.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Prototype Variants and Design Variable Realization}{21}{subsection.7.1}\protected@file@percent }
+\newlabel{subsec:variants}{{7.1}{21}{Prototype Variants and Design Variable Realization}{subsection.7.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Testbed and Instrumentation}{21}{subsection.7.2}\protected@file@percent }
+\newlabel{subsec:testbed}{{7.2}{21}{Testbed and Instrumentation}{subsection.7.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Experimental Protocol}{21}{subsection.7.3}\protected@file@percent }
+\newlabel{subsec:protocol}{{7.3}{21}{Experimental Protocol}{subsection.7.3}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Experimental testbed setup showing the robot on the whiteboard surface with overhead camera for motion capture.}}{22}{figure.caption.17}\protected@file@percent }
-\newlabel{fig:robot-overview}{{13}{22}{Experimental testbed setup showing the robot on the whiteboard surface with overhead camera for motion capture}{figure.caption.17}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Data Processing}{22}{subsection.6.4}\protected@file@percent }
-\newlabel{subsec:data-processing}{{6.4}{22}{Data Processing}{subsection.6.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}Results: Simulation vs.\ Hardware}{23}{section.7}\protected@file@percent }
-\newlabel{sec:results}{{7}{23}{Results: Simulation vs.\ Hardware}{section.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Simulation Results}{23}{subsection.7.1}\protected@file@percent }
-\newlabel{subsec:results-sim}{{7.1}{23}{Simulation Results}{subsection.7.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Experimental Results}{23}{subsection.7.2}\protected@file@percent }
-\newlabel{subsec:results-exp}{{7.2}{23}{Experimental Results}{subsection.7.2}{}}
+\newlabel{fig:exp-setup}{{13}{22}{Experimental testbed setup showing the robot on the whiteboard surface with overhead camera for motion capture}{figure.caption.17}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.4}Data Processing}{22}{subsection.7.4}\protected@file@percent }
+\newlabel{subsec:data-processing}{{7.4}{22}{Data Processing}{subsection.7.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Results: Simulation vs.\ Hardware}{23}{section.8}\protected@file@percent }
+\newlabel{sec:results}{{8}{23}{Results: Simulation vs.\ Hardware}{section.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Simulation Results}{23}{subsection.8.1}\protected@file@percent }
+\newlabel{subsec:results-sim}{{8.1}{23}{Simulation Results}{subsection.8.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}Experimental Results}{23}{subsection.8.2}\protected@file@percent }
+\newlabel{subsec:results-exp}{{8.2}{23}{Experimental Results}{subsection.8.2}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Experimental tracking data. Left: The top-down trajectory reveals stochastic "churning" motion bounded within a region of $x \in [-0.02, 0.08]$m and $y \in [-0.04, 0.01]$m, confirming lack of directed locomotion. Right: Vertical position data shows high-frequency oscillation (amplitude $\approx 3$cm) indicating the legs are lifting but slipping.}}{23}{figure.caption.18}\protected@file@percent }
 \newlabel{fig:exp-trajectory}{{14}{23}{Experimental tracking data. Left: The top-down trajectory reveals stochastic "churning" motion bounded within a region of $x \in [-0.02, 0.08]$m and $y \in [-0.04, 0.01]$m, confirming lack of directed locomotion. Right: Vertical position data shows high-frequency oscillation (amplitude $\approx 3$cm) indicating the legs are lifting but slipping}{figure.caption.18}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Sim-to-Real Comparison and Scientific Analysis of Divergence}{24}{subsection.7.3}\protected@file@percent }
-\newlabel{subsec:sim-to-real}{{7.3}{24}{Sim-to-Real Comparison and Scientific Analysis of Divergence}{subsection.7.3}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.1}Friction Cone Violation}{24}{subsubsection.7.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.2}Parasitic Compliance and Kinematic Distortion}{24}{subsubsection.7.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.3}Unmodeled Damping and Heading Drift}{24}{subsubsection.7.3.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {8}Discussion and Future Work}{24}{section.8}\protected@file@percent }
-\newlabel{sec:discussion}{{8}{24}{Discussion and Future Work}{section.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Addressing the Sim-to-Real Gap}{25}{subsection.8.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}Future Work}{25}{subsection.8.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {9}Project Resources}{25}{section.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {10}Conclusion}{25}{section.10}\protected@file@percent }
-\newlabel{sec:conclusion}{{10}{25}{Conclusion}{section.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.3}Sim-to-Real Comparison and Divergence Analysis}{24}{subsection.8.3}\protected@file@percent }
+\newlabel{subsec:sim-to-real}{{8.3}{24}{Sim-to-Real Comparison and Divergence Analysis}{subsection.8.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.3.1}Friction Cone Violation}{24}{subsubsection.8.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.3.2}Parasitic Compliance and Buckling}{24}{subsubsection.8.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.3.3}Unmodeled Damping and Heading Drift}{24}{subsubsection.8.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {8.3.4}Geometric Transferability and Validation}{24}{subsubsection.8.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {9}Discussion and Future Work}{25}{section.9}\protected@file@percent }
+\newlabel{sec:discussion}{{9}{25}{Discussion and Future Work}{section.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.1}Addressing the Sim-to-Real Gap}{25}{subsection.9.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.2}Future Work}{25}{subsection.9.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {10}Project Resources}{26}{section.10}\protected@file@percent }
+\newlabel{sec:project_resources}{{10}{26}{Project Resources}{section.10}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {11}Conclusion}{26}{section.11}\protected@file@percent }
+\newlabel{sec:conclusion}{{11}{26}{Conclusion}{section.11}{}}
 \bibcite{Hoffman2011}{1}
-\bibcite{Bing2023}{2}
-\bibcite{Hoover2008}{3}
-\bibcite{Durr2019}{4}
-\bibcite{Eckert2015}{5}
+\bibcite{Liu2024}{2}
+\bibcite{Bing2023}{3}
+\bibcite{Billeschou2020}{4}
+\bibcite{Nodehi2024}{5}
+\bibcite{Hoover2008}{6}
+\bibcite{Onal2014}{7}
+\bibcite{Durr2019}{8}
+\bibcite{Eckert2015}{9}
 \gdef \@abspage@last{27}
