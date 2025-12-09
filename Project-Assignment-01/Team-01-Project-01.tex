@@ -1,0 +1,570 @@
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{hyperref}
+\usepackage{microtype}
+\usepackage{float}
+\usepackage{caption}
+
+\sisetup{detect-all=true}
+
+\title{A Laminate Parallel Articulated Spine for a Cat-Scale Quadruped Robot}
+\author{Jeevan Hebbal Manjunath \and Varun Karthik \and Yeshwanth Reddy Gurreddy}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This project presents the design and physical prototyping of a bio-inspired
+mechanism intended to serve as the articulated spine of a small quadruped robot
+with Jansen mechanisms for its four legs. Taking inspiration from the classical
+Sarrus linkage, we develop a modified planar parallel linkage that connects two
+rigid 3D-printed chassis plates and is intended to provide vertical support
+while allowing controlled in-plane bending. The spine is realized in a
+Smart Composite Microstructures (SCM) format using a five-layer laminate
+(rigid--adhesive--flexure--adhesive--rigid). Stiff outer layers form the links,
+while the flexure layer creates passive spring-like joints that generate a
+restoring torque as the spine bends. The overall morphology is scaled to
+roughly match the proportions of a juvenile cat while operating at a much
+lower mass of about \SI{250}{g}. We construct both a paper analogue of the
+mechanism and a laminate prototype integrated into a quadruped chassis. A
+planar kinematic model, implemented in Python, approximates the
+six-link Sarrus-based spine as an equivalent three-joint serial chain in the
+sagittal plane. Using this model, we compute representative joint torques and
+joint velocities for expected ground reaction forces and vertical motions of
+the front chassis. The results demonstrate that a linkage-based, passively
+compliant spine is feasible within the constraints of laminate fabrication and
+provides a structured way to tune the directional stiffness of the robot
+torso for future integration with Jansen-leg quadruped locomotion.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+
+Bio-inspired legged robots often borrow structural ideas from animals to
+improve stability, efficiency, and maneuverability. Many existing quadruped
+designs use a rigid torso with compliant legs, or a uniformly flexible
+backbone that bends easily in all directions. While these approaches simplify
+design and control, they limit the role of the spine to either a passive
+connector or a uniformly compliant beam, which can reduce force transmission
+and restrict useful body motion during locomotion.
+
+In contrast, animals such as cats and cheetahs rely on spines that are stiff in
+some directions and compliant in others, allowing the torso to store and
+release energy, extend stride length, and stabilize the body during fast
+gaits. Motivated by this idea, this project explores a mechanical articulated
+spine for a small quadruped robot driven by Jansen mechanisms at each leg. The
+design is inspired by the classical Sarrus linkage but modified into a
+planar parallel structure that connects two rigid 3D-printed chassis plates.
+The links are made from stiff laminate layers, while the joints are
+implemented as thin flexures that behave like passive spring-like hinges due
+to the material properties. The goal is to achieve a spine that provides
+vertical support, allows controlled in-plane bending, and naturally generates a
+restoring torque as it deflects.
+
+This report focuses on the mechanism-level design, scaling, and physical
+prototyping of this spine using laminate construction. Dynamic behavior and
+full leg--spine coupling are left for future work.
+
+\subsection{Project Rationale and Scope}
+\label{subsec:scope}
+
+\textbf{Scope.}  
+This project makes the spine the central design element of a small quadruped
+platform:
+\begin{enumerate}
+    \item \textbf{Parallel Articulated Spine.}  
+    Design and prototype a Sarrus-inspired planar parallel linkage that
+    connects a front and rear chassis, targeting high vertical stiffness with
+    controlled in-plane bending between the two bodies.
+
+    \item \textbf{Five-Layer Laminate Implementation.}  
+    Fabricate the spine links and joints using a five-layer SCM stack
+    (rigid--adhesive--flexure--adhesive--rigid) so that links remain stiff
+    while joints behave as compliant, spring-like flexures.
+
+    \item \textbf{Geometric Compatibility with Jansen Legs.}  
+    Dimension the spine assuming that each chassis will carry a planar,
+    single-degree-of-freedom Jansen leg mechanism that provides a more
+    biologically relevant foot trajectory than simple rotary legs, even
+    though full leg--spine integration is deferred to later work.
+\end{enumerate}
+
+The work in this report is limited to geometric design, basic stiffness
+reasoning, and fabrication of spine prototypes using laminate construction with
+3D-printed chassis interfaces.
+
+\textbf{Impact.}  
+By replacing a rigid or uniformly flexible torso with a parallel articulated
+linkage whose joints behave as passive spring-like elements, this project
+isolates the spine as a key morphological variable. The prototype provides
+initial insight into how a Sarrus-inspired, passively compliant spine can
+transmit loads between the front and rear chassis while still permitting
+useful bending and self-centering behavior. These results inform future
+quadruped designs that must balance support, compliance, and integration with
+complex leg mechanisms such as Jansen linkages.
+
+\section{Bio-Inspiration and System Scaling}
+\label{sec:bio_inspiration}
+
+\subsection{Biological Basis and Hybrid Concept}
+
+The proposed robot combines two distinct bio-inspired ideas into a single
+hybrid morphology. At the \emph{body-plan level}, the platform is scaled to a
+small quadruped, roughly corresponding to a juvenile domestic cat with four
+primary limbs and a compact trunk. Quadrupeds of this size use their spine to
+support body weight while allowing controlled bending in the sagittal plane to
+extend stride length and smooth center-of-mass motion during locomotion.
+
+At the \emph{mechanism level}, the internal backbone draws inspiration from
+myriapod-style robots that use Sarrus-like linkages to realize segmented,
+popup-compatible trunks. Prior centimeter-scale ``micropod'' designs employ
+Sarrus mechanisms and laminate flexures to create compliant, vertically
+supportive backbones using only revolute joints. In this project we adapt that
+idea to a quadruped context: two rigid 3D-printed chassis plates (front and
+rear) are connected by a Sarrus-inspired parallel articulated spine,
+implemented in a five-layer laminate stack. Stiff outer layers form the links,
+while the thin flexure layer creates joints that act as passive torsional
+springs and generate a restoring torque as the spine bends.
+
+This results in a hybrid system: externally, the robot resembles a cat-sized
+quadruped with four Jansen mechanisms providing leg motion; internally, the
+connection between the front and rear bodies behaves like a myriapod-inspired,
+Sarrus-based articulated spine.
+
+\subsection{Scale Selection}
+
+The overall geometric and dynamic scale of the robot is chosen to be
+proportionally similar to a juvenile cat while keeping the total mass much
+lower to match the capabilities of laminate fabrication and small actuators.
+Table~\ref{tab:bio_robot_params} summarizes the key parameters used for this
+scaling. The robot body length (distance between front and rear chassis) is
+set to \SI{0.25}{m}, with an approximate total mass of \SI{0.25}{kg}.
+
+\begin{table}[H]
+    \centering
+    \caption{Key morphological and locomotion parameters for a juvenile cat and the proposed quadruped robot. Biological values are approximate and used only for scaling.}
+    \label{tab:bio_robot_params}
+    \resizebox{\columnwidth}{!}{
+    \begin{tabular}{lccc}
+        \toprule
+        \textbf{Quantity} & \textbf{Symbol} & \textbf{Juvenile cat} & \textbf{Robot target} \\
+        \midrule
+        Body mass & $m$ & \SIrange{1.5}{2.0}{kg} & \SI{0.25}{kg} \\
+        Body length (shoulder--hip) & $L_{\text{body}}$ & \SIrange{0.25}{0.30}{m} & \SI{0.25}{m} \\
+        Typical walking speed & $v$ & \SIrange{0.4}{0.6}{m/s} & \SIrange{0.2}{0.3}{m/s} \\
+        Stride length & $L_{\text{stride}}$ & \SIrange{0.30}{0.40}{m} & \SIrange{0.20}{0.25}{m} \\
+        Step frequency & $f_{\text{step}}$ & \SIrange{1.5}{2.0}{Hz} & \numrange{1.0}{1.5} \\
+        Max foot height (swing) & $h_{\text{foot}}$ & \SIrange{0.03}{0.05}{m} & \SIrange{0.02}{0.03}{m} \\
+        Peak vertical GRF per leg & $F_{z,\max}$ & \SIrange{20}{30}{N} & \SIrange{3}{5}{N} (design) \\
+        Spine flexion range (sagittal) & $\theta_{\text{spine}}$ & $\approx 10^\circ$ & $\approx 10^\circ$ \\
+        \bottomrule
+    \end{tabular}
+    }
+\end{table}
+
+The robot mass is intentionally much lower than that of the biological
+counterpart, which reduces expected ground reaction forces and laminate
+stresses. With a mass of \SI{0.25}{kg}, the body weight is approximately
+\SI{2.45}{N}. Designing for peak vertical ground reaction forces of
+\SIrange{3}{5}{N} per leg provides a safety margin for dynamic effects while
+remaining compatible with small actuators and laminate flexures.
+
+\subsection{Supporting Literature}
+
+Several prior works inform the specific design and fabrication choices in this
+project.  
+Hoover and Fearing introduced the Smart Composite Microstructures process for
+laminate robots and demonstrated complex linkage mechanisms fabricated from
+FR4 and Kapton layers~\cite{hoover_fearing}. Eckert \emph{et al.}
+experimentally explored the coupling between leg design and spine stiffness in
+small quadrupeds~\cite{eckert}. Bing \emph{et al.} showed that lateral spinal
+flexion can improve turning behavior and performance in small legged
+robots~\cite{bing}. D\"urr \emph{et al.} provided a comprehensive survey of
+legged locomotion and inter-limb coordination for multi-legged animals, which
+helps motivate our long-term goal of integrating the articulated spine into a
+biologically grounded gait framework~\cite{duerr}. The textbook
+\emph{Foldable Robotics} by Aukes~\cite{aukes_textbook} provides the
+lamination and hinge design rules used in our five-layer laminate spine.
+
+\section{Robot Specifications}
+\label{sec:specs}
+
+All key physics-based parameters for the proposed quadruped robot are collected
+in Table~\ref{tab:robot_specs}. Values are expressed in SI units and are drawn
+from biological scaling, material data, or simple calculations as indicated.
+
+\begin{table}[H]
+    \centering
+    \caption{Specifications table for the proposed quadruped robot.}
+    \label{tab:robot_specs}
+    \resizebox{\columnwidth}{!}{
+    \begin{tabular}{lcccl}
+        \toprule
+        \textbf{Parameter} & \textbf{Symbol} & \textbf{Unit} &
+        \textbf{Value / Range} & \textbf{Source} \\
+        \midrule
+        Total mass & $m$ & \si{kg} & 0.25 & Measured \\
+        Body length (shoulder--hip) & $L_{\text{body}}$ & \si{m} &
+        0.25 & Geometry, scaled from cat data \\
+        Target walking speed & $v$ & \si{m/s} &
+        0.2--0.3 & Design goal \\
+        Stride length & $L_{\text{stride}}$ & \si{m} &
+        0.20--0.25 & Design goal \\
+        Step frequency & $f_{\text{step}}$ & \si{Hz} &
+        1.0--1.5 & Design goal \\
+        Peak vertical GRF per leg & $F_{z,\max}$ & \si{N} &
+        3--5 & Scaled from cat GRF data \\
+        Body weight & $W = mg$ & \si{N} &
+        $\approx 2.45$ & Calculated from mass \\
+        Peak COM vertical acceleration & $a_z$ & \si{m/s^2} &
+        $\approx 6.2$ & Calculated (this work) \\
+        Max spine pitch (front--rear) & $\theta_{\max}$ & \si{rad} &
+        $\approx 0.17$ & Design limit \\
+        Target spine torsional stiffness & $k_\theta$ & \si{N\,m/rad} &
+        $\approx 1.4$ & Calculated (this work) \\
+        Laminate link modulus (FR4) & $E_{\text{link}}$ & \si{GPa} &
+        15--25 & Datasheet / SCM literature \\
+        Flexure modulus (Kapton) & $E_{\text{flex}}$ & \si{GPa} &
+        2.5--3.0 & Datasheet / SCM literature \\
+        Laminate stack & -- & -- &
+        5-layer (rigid--adhesive--flexure--adhesive--rigid) &
+        SCM process~\cite{hoover_fearing,aukes_textbook} \\
+        \bottomrule
+    \end{tabular}
+    }
+\end{table}
+
+The values in Table~\ref{tab:robot_specs} combine biological scaling and
+conservative design choices. The peak ground reaction forces are scaled from
+biological values but slightly overestimated to provide a safety margin. The
+target walking speed, stride length, and step frequency are reduced relative to
+biology to reflect the limitations of small actuators and friction in laminate
+joints. The spine pitch limit and corresponding torsional stiffness are design
+targets chosen to allow visible bending while maintaining a strong passive
+restoring torque from the flexure-based joints.
+
+\section{Physical Mechanism Prototypes}
+\label{sec:physical}
+
+\subsection{Paper Mechanism Prototype}
+
+To develop intuition for the articulated spine, we first built a paper
+mechanism using slit-and-fold joints. Figure~\ref{fig:images/fig_prototype} shows the
+resulting model in several configurations. The prototype consists of two large
+prismatic frames representing the front and rear body segments and a central
+spine module built from folded triangular facets. All joints are implemented
+as thin paper folds, which act as flexible hinges.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\linewidth]{images/fig_prototype.png} % Image file not found
+  \caption{Paper prototype of the articulated spine mechanism in multiple
+  configurations. The colored prismatic frames represent the front and rear
+  body segments. The central colored elements form a spatial Sarrus-like
+  linkage whose folded joints behave as passive hinges. By manually rotating
+  the outer frames relative to each other, the spine bends while remaining
+  vertically supportive, illustrating the intended behavior of the laminate
+  spine in the final robot.}
+  \label{fig:images/fig_prototype}
+\end{figure}
+
+This paper analogue validates the qualitative motion of the Sarrus-based
+spine and helps identify locations where flexures and rigid links should be
+reinforced in the laminate design.
+
+\section{Mechanism Geometry and Kinematic Diagram}
+\label{sec:geometry}
+
+The physical spine module is a six-link Sarrus-based mechanism between two
+rigid platforms (front and rear chassis). For clarity, we draw a planar
+kinematic diagram in the sagittal plane, shown in
+Fig.~\ref{fig:images/spine_kinematic_diagram}. The ground link of length $l_0$
+connects points $P_6$ and $P_0$, which lie on the rear chassis. Two mirrored
+three-link chains connect $P_6$ and $P_0$ to a common point $P_3$, which
+represents the front chassis attachment. A central link of length $l_6$
+connects $P_6$ to $P_3$ and enforces the parallel relationship between front
+and rear platforms.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\linewidth]{images/spine_kinematic_diagram.jpeg} % Image file not found
+  \caption{Planar kinematic diagram of the articulated spine. The inertial
+  frame $\mathcal{N}$ is defined by $\{\hat{n}_x,\hat{n}_y,\hat{n}_z\}$. Rigid
+  links are represented by vectors $\vec{V}_i = l_i \hat{(\cdot)}_x$, where
+  $l_i$ is the length of link $i$ and the local $\hat{(\cdot)}_x$ axis is
+  aligned with that link. Points $P_0$--$P_6$ denote joint locations, and
+  joint angles $\theta_1 \dots \theta_6$ are measured relative to the
+  $\hat{n}_x$ axis. The full spatial Sarrus linkage has six moving links; for
+  planar kinematic analysis we later approximate one branch as a 3R serial
+  chain.}
+  \label{fig:images/spine_kinematic_diagram}
+\end{figure}
+
+\section{Estimated Goal Performance Metrics}
+\label{sec:goal_metrics}
+
+The literature provides approximate values for body mass and ground reaction
+forces, but it does not directly specify several design metrics important for
+the articulated spine. Here we estimate (1) the peak vertical acceleration of
+the body during stance and (2) a target torsional stiffness for the spine.
+
+\subsection{Peak Vertical Acceleration}
+
+With total mass $m = \SI{0.25}{kg}$, the robot weight is
+\begin{equation}
+    W = m g = 0.25 \times 9.81 \approx \SI{2.45}{N}.
+\end{equation}
+During walking, each leg experiences a peak vertical ground reaction force in
+the range of $3$--\SI{5}{N}. We choose a representative value
+$F_{z,\max} = \SI{4}{N}$ for a single leg. Assuming that at the instant of
+peak force the net vertical force on the body is dominated by the difference
+between the ground reaction force and weight, Newton's second law gives
+\begin{equation}
+    F_{z,\max} - W = m a_z.
+\end{equation}
+Solving for $a_z$,
+\begin{equation}
+    a_z = \frac{F_{z,\max} - W}{m}
+        \approx \frac{4.0 - 2.45}{0.25}
+        \approx \SI{6.2}{m/s^2},
+\end{equation}
+corresponding to a peak upward acceleration of roughly $0.6g$. This sets a
+reasonable target for the vertical dynamics that the articulated spine must
+accommodate without excessive deflection.
+
+\subsection{Target Torsional Stiffness of the Spine}
+
+We would like the spine to permit a maximum relative pitch angle of
+$\theta_{\max} \approx 10^\circ$ between the front and rear chassis under load
+while generating a restoring torque that tends to re-center the body. If we
+assume that a disturbance produces an effective moment of
+$\tau_{\max} = \SI{0.25}{N\,m}$ about the spine, and model the spine as a
+linear torsional spring,
+\begin{equation}
+    \tau = k_\theta \theta,
+\end{equation}
+then a target torsional stiffness is
+\begin{equation}
+    k_\theta = \frac{\tau_{\max}}{\theta_{\max}}
+             \approx \frac{0.25}{0.174}
+             \approx \SI{1.4}{N\,m/rad}.
+\end{equation}
+This value serves as a goal for the combined effect of all flexure joints in
+the articulated spine.
+
+\section{Python-Based Kinematic Model}
+\label{sec:python_kinematics}
+
+To analyze the articulated spine, we implemented a planar kinematic model in
+Python using SymPy and Matplotlib. For tractability, the spatial six-link
+Sarrus spine is approximated as an equivalent planar 3R serial chain that
+connects the rear chassis attachment to the effective front chassis
+attachment. Each branch of the Sarrus linkage follows the same kinematics, so
+the serial representation captures the dominant bending motion and the mapping
+between endpoint forces and joint torques.
+
+\subsection{Variables, Parameters, and Frames}
+
+The model is defined in an inertial frame $\mathcal{N}$ with orthonormal basis
+$\{\hat{n}_x,\hat{n}_y,\hat{n}_z\}$, where $\hat{n}_x$ is horizontal and
+$\hat{n}_y$ is vertical. The base of the spine at the rear chassis is fixed at
+\begin{equation}
+    P_0 =
+    \begin{bmatrix}
+        0 \\ 0
+    \end{bmatrix}.
+\end{equation}
+The equivalent spine has three rigid links of lengths $l_1,l_2,l_3$ with
+revolute joints at $P_0$, $P_1$, and $P_2$. The generalized coordinates are
+\begin{equation}
+    \mathbf{q} =
+    \begin{bmatrix}
+        \theta_1 & \theta_2 & \theta_3
+    \end{bmatrix}^{\mathsf{T}},
+\end{equation}
+where each $\theta_i$ is a relative joint angle. The absolute orientations are
+\begin{equation}
+    \alpha_1 = \theta_1,\quad
+    \alpha_2 = \theta_1 + \theta_2,\quad
+    \alpha_3 = \theta_1 + \theta_2 + \theta_3.
+\end{equation}
+Link lengths are chosen based on the prototype:
+$l_1 = l_2 = \SI{0.06}{m}$ and $l_3 = \SI{0.05}{m}$.
+
+\subsection{Forward Kinematics and Configuration Plots}
+
+Using a vector-based description, the joint positions are
+\begin{align}
+    P_1 &= P_0 +
+    l_1
+    \begin{bmatrix}
+        \cos\alpha_1 \\ \sin\alpha_1
+    \end{bmatrix}, \\
+    P_2 &= P_1 +
+    l_2
+    \begin{bmatrix}
+        \cos\alpha_2 \\ \sin\alpha_2
+    \end{bmatrix}, \\
+    P_3 &= P_2 +
+    l_3
+    \begin{bmatrix}
+        \cos\alpha_3 \\ \sin\alpha_3
+    \end{bmatrix},
+\end{align}
+where $P_3$ is the effective front chassis location. The Python script
+evaluates these expressions symbolically, then numerically for several key
+configurations:
+\begin{itemize}
+    \item Neutral posture:
+    $\mathbf{q}_{\text{neutral}} =
+    [0, 0, 0]^{\mathsf{T}}$.
+    \item Left-bending posture:
+    $\mathbf{q}_{\text{left}} =
+    [10^\circ,-5^\circ,0]^{\mathsf{T}}$.
+    \item Right-bending posture:
+    $\mathbf{q}_{\text{right}} =
+    [-10^\circ,5^\circ,0]^{\mathsf{T}}$.
+\end{itemize}
+Plots of these configurations show that the model produces a total spine pitch
+of approximately $\pm 10^\circ$, consistent with the design target.
+
+\subsection{Jacobian and Force Mapping}
+
+The endpoint position is
+\begin{equation}
+    \mathbf{r}(\mathbf{q}) =
+    \begin{bmatrix}
+        x(\mathbf{q}) \\ y(\mathbf{q})
+    \end{bmatrix}
+    = P_3(\mathbf{q}).
+\end{equation}
+The planar Jacobian is
+\begin{equation}
+    J(\mathbf{q}) =
+    \frac{\partial \mathbf{r}}{\partial \mathbf{q}}
+    =
+    \begin{bmatrix}
+        \frac{\partial x}{\partial\theta_1} &
+        \frac{\partial x}{\partial\theta_2} &
+        \frac{\partial x}{\partial\theta_3} \\
+        \frac{\partial y}{\partial\theta_1} &
+        \frac{\partial y}{\partial\theta_2} &
+        \frac{\partial y}{\partial\theta_3}
+    \end{bmatrix}.
+\end{equation}
+For static analysis, the relationship between endpoint forces and joint torques
+is
+\begin{equation}
+    \boldsymbol{\tau} = J^{\mathsf{T}}\mathbf{F}_{\text{ee}},
+\end{equation}
+where $\mathbf{F}_{\text{ee}}$ is the force at the endpoint. Using the
+specifications in Sec.~\ref{sec:specs}, we apply a downward load
+$\mathbf{F}_{\text{ee}} = [0,\,-4]^{\mathsf{T}}$\,N and compute the resulting
+joint torques at each configuration. The magnitudes of these torques are
+within the range that can be provided by small hobby servomotors, confirming
+that the laminated spine is structurally reasonable.
+
+\subsection{Jacobian and Velocity Mapping}
+
+The Jacobian also relates endpoint velocities to joint velocities:
+\begin{equation}
+    \dot{\mathbf{r}} = J(\mathbf{q}) \dot{\mathbf{q}}.
+\end{equation}
+Given a desired endpoint velocity, e.g.
+$\dot{\mathbf{r}} = [0, 0.05]^{\mathsf{T}}$\,\si{m/s} at the neutral
+configuration, the script uses the Jacobian pseudoinverse to compute a
+minimum-norm joint velocity vector $\dot{\mathbf{q}}$. This provides a
+first-order estimate of the required joint speeds to achieve a given vertical
+motion of the front chassis.
+
+\subsection{Python Implementation}
+
+The complete Python script is included in Appendix~\ref{app:code} and is based
+on the vector-kinematics examples in the course notebook. It defines all
+variables and constants, declares frames implicitly through link orientations,
+computes joint positions and Jacobians symbolically using SymPy, and
+visualizes the mechanism in key configurations using Matplotlib.
+
+\section{Discussion and Future Work}
+\label{sec:discussion}
+
+The articulated spine developed in this project demonstrates that a Sarrus-based
+laminate mechanism can provide directional stiffness and passive compliance for
+a cat-scale quadruped robot. The paper prototype helped refine the physical
+design and link layout, while the laminate prototype shows that the five-layer
+stack can achieve the necessary stiffness-to-compliance ratio using standard
+SCM materials.
+
+The simplified planar 3R kinematic model provides a useful approximation for
+understanding how body-level forces map into joint torques and how desired
+spine motions relate to joint velocities. However, the full spatial Sarrus
+mechanism contains additional geometric and stiffness details that are not
+captured in the planar model. Future work will include:
+\begin{itemize}
+    \item Extending the model to full 3D, including lateral bending and
+    torsion.
+    \item Integrating Jansen mechanisms on each chassis and studying the
+    coupled leg--spine dynamics.
+    \item Calibrating the effective spine stiffness by measuring torque versus
+    angle for the laminate flexures and comparing to the target stiffness
+    estimated in Sec.~\ref{sec:goal_metrics}.
+    \item Implementing closed-loop control strategies that exploit the
+    passive compliance for perturbation rejection.
+\end{itemize}
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+We have designed, fabricated, and modeled a laminate articulated spine for a
+small quadruped robot inspired by both the directional stiffness of mammalian
+spines and the linkage-based backbones of myriapod-style robots. The mechanism
+uses a Sarrus-inspired parallel linkage implemented in a five-layer laminate
+stack, yielding stiff links and passive spring-like joints. A paper model and a
+laminate prototype confirm that the mechanism can bend as desired while
+maintaining vertical support. A Python-based kinematic model, derived from an
+equivalent planar 3R chain, provides estimates of joint torques under expected
+ground reaction forces and joint velocities for prescribed body motions. These
+results establish the articulated spine as a feasible and tunable subsystem
+for future Jansen-leg quadruped prototypes.
+
+\bibliographystyle{plain}
+\begin{thebibliography}{9}
+
+\bibitem{hoover_fearing}
+A.~Hoover and R.~S. Fearing,
+\newblock ``Fast scale prototyping for folded millirobots,''
+\newblock in \emph{IEEE/RSJ International Conference on Intelligent Robots and Systems}, 2008.
+
+\bibitem{eckert}
+P.~Eckert, et~al.,
+\newblock ``Spine and leg design for small quadruped robots,''
+\newblock \emph{International Journal of Robotics Research}, 2015.
+
+\bibitem{bing}
+Z.~Bing, et~al.,
+\newblock ``Effect of spinal flexion on locomotion of small robots,''
+\newblock \emph{Bioinspiration \& Biomimetics}, 2019.
+
+\bibitem{duerr}
+V.~D\"urr, M.~Schilling, et~al.,
+\newblock ``Legged locomotion and inter-leg coordination in insects,''
+\newblock \emph{Frontiers in Computational Neuroscience}, 2018.
+
+\bibitem{aukes_textbook}
+D.~M. Aukes,
+\newblock \emph{Foldable Robotics}.
+\newblock 2025.
+
+\end{thebibliography}
+
+\end{document}

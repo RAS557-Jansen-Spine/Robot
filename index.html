@@ -4,10 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bio-Inspired Myriapod Robot | Team 01</title>
+    <title>Bio-Inspired Myriapod Robot | Project 02</title>
     <link rel="stylesheet" href="css/style.css">
 
     <!-- MathJax for LaTeX rendering -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            }
+        };
+    </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <!-- Lenis for Smooth Scrolling -->
@@ -18,407 +27,873 @@
 
     <nav>
         <div class="container">
-            <div class="logo">Jansen<span>Spine</span></div>
+            <div class="logo">Myria<span>Bot</span></div>
             <div class="nav-links">
-                <a href="#hero">Home</a>
-                <a href="#abstract">Abstract</a>
-                <a href="#bio-basis">Bio-Basis</a>
-                <a href="#mechanism">Mechanism</a>
-                <a href="#math">Analysis</a>
-                <a href="#prototype">Prototype</a>
-                <a href="#validation">Validation</a>
+                <a href="#overview">Overview</a>
+                <a href="#design">Design & Fab</a>
+                <a href="#analysis">Analysis & Results</a>
+                <a href="#project01">Project Assignment 01</a>
                 <a href="#team">Team</a>
+                <a href="#gallery">Gallery</a>
                 <a href="#references">References</a>
+                <a href="https://github.com/RAS557-Jansen-Spine/Robot" target="_blank" class="nav-github-btn">GitHub</a>
             </div>
         </div>
     </nav>
 
-    <header id="hero">
-        <div class="container hero-content">
-            <h1><span>RAS 557: FOLDABLE ROBOTICS</span>Bio-Inspired Myriapod Robot</h1>
-            <p>Team-01: Analysis of a Bio-Inspired Myriapod Robot with a Modified Hybrid Spine and Jansen Linkage Legs
-            </p>
-            <div style="margin-top: var(--space-md);">
-                <p style="color: var(--accent-secondary); font-family: var(--font-header);">Jeevan Hebbal Manjunath
-                    &bull; Varun Karthik &bull; Yeshwanth Reddy Gurreddy</p>
-                <p style="font-size: 0.9rem; color: var(--text-muted);">Arizona State University &bull; October 15, 2025
-                </p>
+    <!-- TAB: OVERVIEW -->
+    <div id="overview" class="tab-content">
+        <header id="hero">
+            <div class="container hero-content">
+                <h1><span>RAS 557: FOLDABLE ROBOTICS</span>Project: Bio-Inspired Myriapod Robot</h1>
+                <p>Analysis of a Bio-Inspired Myriapod Robot with a Modified Spine and Legs Linkage</p>
+                <div style="margin-top: var(--space-md);">
+                    <p style="color: var(--accent-secondary); font-family: var(--font-header);">Jeevan Hebbal Manjunath
+                        &bull; Varun Karthik &bull; Yeshwanth Reddy Gurreddy</p>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">Arizona State University</p>
+                </div>
+                <!-- Initialize System Button -->
+                <button id="init-system-btn" class="btn" style="margin-top: var(--space-md);">Initialize System</button>
+                <br>
+                <a href="https://drive.google.com/file/d/1g2vcpWkDaXVLEnYacGq9MGoRw2G2dIlt/view?usp=sharing"
+                    target="_blank"
+                    style="display:inline-block; margin-top: 1rem; color: var(--accent-primary); text-decoration: underline;">Download
+                    Full Report (PDF)</a>
             </div>
-            <a href="#abstract" class="btn" style="margin-top: var(--space-md);">Initialize System</a>
-        </div>
-    </header>
+        </header>
 
-    <section id="abstract">
-        <div class="container">
-            <div class="grid-2">
-                <div class="reveal">
-                    <h2>Abstract</h2>
-                    <p>This paper presents the design, kinematic modeling, and dynamic analysis of a centipede-inspired
-                        terrestrial locomotion mechanism. Building upon the myriapod microrobot foundation established
-                        by Hoffman and Wood, this work investigates the coupled dynamics of an <strong>asymmetrically
-                            compliant spine</strong> and biologically realistic leg kinematics.</p>
-                    <p>We propose a novel <strong>hybrid architecture</strong> that integrates a rigid anterior spinal
-                        connection with a compliant posterior Sarrus linkage, driven by foldable,
-                        single-degree-of-freedom <strong>Jansen linkages</strong>. We derive the kinematic Jacobian and
-                        Euler-Lagrange dynamics for a three-segment system to evaluate ground reaction forces, actuator
-                        torque requirements, and metabolic cost proxies.</p>
-                    <p>Theoretical results indicate that the proposed morphology may offer a favorable trade-off between
-                        straight-line stability and maneuverability compared to fully flexible baselines. A rigorous
-                        system identification and experimental validation plan is proposed to verify these findings.</p>
+        <section id="abstract-content">
+            <div class="container">
+                <div class="grid-2">
+                    <div class="reveal">
+                        <h2>Abstract</h2>
+                        <p>This study investigates the locomotory dynamics of a bio-inspired segmented
+                            <em>quadruped</em> robot, focusing on the coupling between spinal compliance and complex leg
+                            kinematics. While prior centimeter-scale myriapod robots typically employ simple rotational
+                            legs and uniform backbones, this work proposes a hybrid morphology that combines a rigid
+                            anterior torso interface with a compliant, Sarrus-inspired <em>parallel articulated
+                                spine</em>, driven by four single-degree-of-freedom Jansen leg mechanisms.
+                        </p>
+                        <p>A multi-body dynamic model is developed in MuJoCo to simulate the nonlinear interaction
+                            between ground reaction forces generated by the Jansen linkages and the restoring forces of
+                            the modified spine linkage. A parametric sweep over spinal stiffness (k) and inter-segment
+                            length (L) is used to identify configurations that maximize forward velocity and stride
+                            frequency while minimizing lateral body oscillations. The resulting design is implemented
+                            using the Smart Composite Microstructures (SCM) process, with laser-machined rigid links and
+                            multi-layer polymer flexures forming both the spine and leg subsystems.</p>
+                        <p>Experimental trials are compared against simulation predictions to quantify the
+                            simulation-to-reality gap, specifically isolating the effects of unmodeled joint friction in
+                            the laminate joints. Results demonstrate that appropriately tuning spinal stiffness enables
+                            passive regulation of gait dynamics and improves stability, suggesting a general design
+                            strategy for high-DOF segmented robots that avoids reliance on complex active control.</p>
+                    </div>
+                    <div class="card reveal" style="transition-delay: 0.2s;">
+                        <h3>Introduction</h3>
+                        <p>The development of agile terrestrial robots capable of navigating unstructured environments
+                            remains a significant engineering challenge. Bio-inspired systems offer a robust alternative
+                            by leveraging "morphological intelligence"—the physical encoding of control strategies into
+                            the mechanical structure itself. Specifically, arthropods such as myriapods (e.g.,
+                            <em>Lithobius forficatus</em> or stone centipede) utilize segmented body plans coupled with
+                            compliant inter-connections to decouple body posture from ground reaction forces. This
+                            architecture permits stable locomotion over uneven terrain through passive mechanical
+                            adaptation rather than complex active control.
+                        </p>
+                        <p>In this study, we translate these biological principles into a meso-scale, foldable robotic
+                            platform using the Smart Composite Microstructures (SCM) manufacturing process.</p>
+                    </div>
                 </div>
-                <div class="card reveal" style="transition-delay: 0.2s;">
-                    <h3>Key Innovations</h3>
-                    <ul>
-                        <li style="margin-bottom: 1rem;"><strong>Hybrid Spine Architecture:</strong> Integrates a rigid
-                            anterior interface for stability with a compliant posterior Sarrus linkage for turning
-                            maneuverability.</li>
-                        <li style="margin-bottom: 1rem;"><strong>Jansen Linkage Locomotion:</strong> Implements a
-                            planar, 1-DOF Jansen linkage to generate a biologically relevant ovoid foot locus, improving
-                            ground clearance and step repeatability.</li>
-                        <li><strong>SCM Fabrication:</strong> Utilizes Smart Composite Microstructures (laser-cut
-                            cardstock and Kapton flexures) for rapid prototyping of complex articulated structures.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <section id="intro">
-        <div class="container">
-            <h2 class="reveal">Introduction</h2>
-            <p class="reveal">Bio-inspired robotics leverages the morphological intelligence of arthropods to solve
-                complex locomotion challenges. Myriapods, specifically centipedes, demonstrate remarkable stability and
-                agility through the coordination of segmented trunks and numerous legs.</p>
-
-            <div class="grid-2" style="margin-top: var(--space-md);">
-                <div class="card reveal">
-                    <h3>Project Rationale</h3>
-                    <p>Current designs often utilize simplified rotational leg mechanisms that fail to capture the
-                        complex foot trajectories of biological organisms, or rely on uniform spinal compliance which
-                        may limit force transmission during rapid acceleration.</p>
-                    <p><strong>Research Question:</strong> <em>How does the dynamic coupling between non-uniform spinal
-                            flexibility and complex leg kinematics influence the behavior of a multi-legged robotic
-                            system?</em></p>
-                </div>
-                <div class="card reveal" style="transition-delay: 0.2s;">
-                    <h3>Impact & Scope</h3>
-                    <p><strong>Scope:</strong> A three-segment robot with two legs per segment (6 DOF total), fabricated
-                        using SCM techniques.</p>
-                    <p><strong>Impact:</strong> A robot with a locally rigid anterior spine is expected to exhibit
-                        different straight-line stability characteristics compared to a fully flexible counterpart.
-                        Simultaneously, the Jansen linkage offers a sophisticated foot trajectory that may enhance
-                        ground clearance.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="bio-basis">
-        <div class="container">
-            <h2 class="reveal">Bio-Inspiration & Scaling</h2>
-
-            <div class="grid-2">
-                <div class="reveal">
-                    <figure>
-                        <img src="images/fig_concept.png" alt="Concept Schematic" class="diagram">
-                        <figcaption>Fig 1. Schematic of the proposed robotic system inspired by the centipede body plan.
-                        </figcaption>
-                    </figure>
-                    <h3>Biological Basis</h3>
-                    <p>The design is anchored in the morphology of <em>Lithobius forficatus</em> (stone centipede).
-                        These organisms exhibit a segmented trunk where propulsion is generated by metachronal waves of
-                        leg movements.</p>
-                </div>
-                <div class="reveal" style="transition-delay: 0.2s;">
-                    <h3>Supporting Literature</h3>
+                <div class="reveal" style="margin-top: var(--space-md);">
+                    <h3>Motivation and Project Goals</h3>
+                    <p>The primary motivation of this work is to quantify the dynamic trade-offs inherent in compliant
+                        segmented locomotion. While hexapedal (6-legged) implementations benefit from inherently stable
+                        tripod gaits, they often mask the specific contribution of spinal compliance to stability. By
+                        reducing the morphology to a quadruped (4-legged) system, we create a more challenging dynamic
+                        environment where the spine's role in maintaining ground contact becomes critical.</p>
                     <ul class="literature-list">
-                        <li><strong>Bing et al. (2023):</strong> Demonstrated that lateral spinal flexion improves motor
-                            performance and turning radius in mouse-scale robots.</li>
-                        <li><strong>Hoover and Fearing (2008):</strong> Established the SCM rapid prototyping process
-                            for folded millirobots, which we adopt.</li>
-                        <li><strong>Eckert et al. (2015):</strong> Highlighted that spine and leg dynamics are tightly
-                            coupled; a change in leg trajectory requires spinal tuning.</li>
-                        <li><strong>Dürr et al. (2019):</strong> Provided the biomimetic foundation for hexapedal
-                            locomotion and inter-leg coordination rules.</li>
+                        <li><strong>Synthesize a High-Clearance Morphology:</strong> Integrate single-degree-of-freedom
+                            <strong>Jansen linkages</strong> to generate foot trajectories with superior vertical
+                            clearance compared to simple rotary legs.
+                        </li>
+                        <li><strong>Design a Novel Compliant Spine:</strong> Replace complex multi-stage backbones with
+                            a simplified <strong>Cross-Axis Flexure (X-Flexure)</strong> spine, designed to provide
+                            tunable lateral flexibility while maintaining torsional rigidity.</li>
+                        <li><strong>Bridge Simulation and Reality:</strong> Formulate a physics-based model in MuJoCo to
+                            predict the gait dynamics of this quadrupedal system and validate these predictions against
+                            a physical SCM prototype.</li>
+                        <li><strong>Optimize Passive Dynamics:</strong> Investigate how the stiffness of the X-flexure
+                            spine influences the robot's ability to maintain a stable trot gait without complex active
+                            feedback.</li>
                     </ul>
+                </div>
 
-                    <div class="card" style="margin-top: var(--space-md);">
-                        <h3>Robotic Parameters</h3>
-                        <table class="data-table">
-                            <tr>
-                                <th>Parameter</th>
-                                <th>Robotic Target</th>
-                            </tr>
-                            <tr>
-                                <td>Total Mass</td>
-                                <td>~150 g</td>
-                            </tr>
-                            <tr>
-                                <td>Body Length</td>
-                                <td>~250 mm</td>
-                            </tr>
-                            <tr>
-                                <td>Stride Length</td>
-                                <td>10 mm</td>
-                            </tr>
-                            <tr>
-                                <td>Link Stiffness</td>
-                                <td>0.342 Nm/rad</td>
-                            </tr>
-                            <tr>
-                                <td>Link Length</td>
-                                <td><a href="https://javalab.org/en/theo_jansen_en/">Jensen's
-                                        Holy Numbers</a></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Spine Length
-                                </td>
-                                <td>Variable</td>
-                            </tr>
-                        </table>
+                <div class="grid-2 reveal" style="margin-top: var(--space-md);">
+                    <div>
+                        <h3>Biological Inspiration: From Centipede to Robot</h3>
+                        <p>Our design is biologically grounded in the morphology of myriapods. Although we have
+                            simplified the system to four legs, we retain the core biological principles that define
+                            myriapod locomotion:</p>
+                        <ul>
+                            <li><strong>Segmentation and Articulation:</strong> Myriapods are not rigid beams; they are
+                                chains of articulated units. Our two-segment design mimics a single "vertebral"
+                                interface.</li>
+                            <li><strong>Distributed Propulsion:</strong> Locomotion is driven by the coordinated
+                                movement of legs on distinct segments.</li>
+                            <li><strong>Passive Adaptation:</strong> The inherent compliance of the exoskeleton allows
+                                the body to conform to obstacles passively, reducing the computational burden on the
+                                central nervous system.</li>
+                        </ul>
+                        <p>The direct engineering lineage traces back to the myriapod microrobot architecture by Hoffman
+                            and Wood [1]. However, we introduced major deviations: </p>
+                        <ol>
+                            <li><strong>Morphology Reduction (6 Legs -> 4 Legs):</strong> To isolate spinal dynamics
+                                without tripod stability crutches.</li>
+                            <li><strong>Spine Evolution (Sarrus -> Cross-Axis Flexure):</strong> For better lateral
+                                bending while preventing sagging.</li>
+                            <li><strong>Leg Mechanism (4-Bar -> Jansen):</strong> For deterministic semi-ovoid foot loci
+                                and higher lift.</li>
+                        </ol>
+                    </div>
+                    <div>
+                        <figure>
+                            <img src="images/Myriapod.png" alt="Reference Myriapod Architecture">
+                            <figcaption>Fig 1. The reference myriapod microrobot architecture (Hoffman and Wood) serving
+                                as design inspiration.</figcaption>
+                        </figure>
+                    </div>
+                </div>
+
+                <div class="reveal figure-large" style="margin-top: var(--space-md);">
+                    <figure>
+                        <img src="images/final_robot_assembly.png" alt="Our Robot Overview">
+                        <figcaption>Fig 2. Overall view of our four-legged myriapod-inspired robot showing the SCM
+                            Jansen legs, diamond spine, and control hardware.</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- TAB: GALLERY -->
+
+
+    <!-- TAB: DESIGN & FAB -->
+    <div id="design" class="tab-content" style="display:none;">
+        <section>
+            <div class="container">
+                <h2 class="reveal">Robot Architecture & Design</h2>
+
+                <div class="reveal">
+                    <h3>Baseline Template & Modifications</h3>
+                    <p>The baseline template follows the myriapod concept: a central body with repeated leg modules and
+                        a compliant backbone. We retain the overall idea but replace the Sarrus linkage with a simpler
+                        laminated wedge spine while reducing the number of legs. This allows us to focus on the
+                        interaction between leg propulsion and spine stiffness.</p>
+                </div>
+
+                <div class="grid-2 reveal">
+                    <div>
+                        <h3>Jansen Linkage Locomotion</h3>
+                        <p>To achieve effective ground clearance and a deterministic foot path, we implemented the
+                            Jansen linkage. Unlike simple rotary legs, this mechanism converts a simple rotary input
+                            into a complex semi-ovoid trajectory with a distinct stance (traction) and swing (lift)
+                            phase.</p>
+                        <p>The kinematics of the foot position $\mathbf{p}_f$ are a function of the input crank angle
+                            $\theta_{crank}$ and the geometric link lengths $\mathbf{l}$:</p>
+                        <p class="equation">$$ \mathbf{p}_f(\theta_{crank}) = \mathcal{F}_{Jansen}(\theta_{crank},
+                            \mathbf{l}) $$</p>
+                        <p>This linkage was selected because its high step height reduces the probability of
+                            "toe-stubbing" on carpeted or uneven surfaces, a common failure mode in low-profile
+                            crawlers.</p>
+                    </div>
+                    <div>
+                        <figure>
+                            <img src="images/jensens_linkage.png" alt="Jansen Linkage">
+                            <figcaption>Fig 3. Idealized Jansen linkage (a) schematic.</figcaption>
+                        </figure>
+                        <figure style="margin-top:1rem;">
+                            <img src="images/my_robot_jensen.png" alt="Laminate Jansen Leg">
+                            <figcaption>Fig 4. Implemented laminate version (b).</figcaption>
+                        </figure>
+                        <figure style="margin-top:1rem;">
+                            <img src="images/jensen_linkage_kinematic_diag.png" alt="Jansen Kinematics">
+                            <figcaption>Fig 5. Kinematic analysis (c).</figcaption>
+                        </figure>
+                    </div>
+                </div>
+
+                <div class="grid-2 reveal" style="margin-top: var(--space-md);">
+                    <div>
+                        <h3>Parallel Articulation Mechanism (PAM) Spine</h3>
+                        <p>The core innovation of this platform is the variable-geometry spine. Unlike a monolithic
+                            flexible beam, our spine is constructed as a discrete linkage linkage (Cross-Axis Flexure).
+                        </p>
+
+                        <h4>Variable Stiffness ($k$)</h4>
+                        <p>The spine stiffness is governed by the geometry of the flexure hinges and the material
+                            properties of the laminate layers. By varying the width of the castellated flexures, we can
+                            tune the torsional spring constant $k_{\theta}$.</p>
+                        <p class="equation">$$ \tau_{restore} = -k_{\theta} (\theta_{yaw}) - c \dot{\theta}_{yaw} $$</p>
+                        <p>where $\tau_{restore}$ is the restoring torque helping the robot return to neutral heading
+                            after a step cycle.</p>
+
+                        <h4>Variable Length ($L$)</h4>
+                        <p>The spine design allows for adjustment of the longitudinal distance ($L$) between front and
+                            rear axes. This influences the robot's turning moment of inertia $I_z$:</p>
+                        <p class="equation">$$ I_z \approx I_{cm} + m \left(\frac{L}{2}\right)^2 $$</p>
+                        <p>Optimizing $L$ is a trade-off: a longer spine increases stability (wheelbase) but increases
+                            drag moment during turning.</p>
+                    </div>
+                    <div>
+                        <figure>
+                            <img src="images/spine_design.jpeg" alt="Spine Design">
+                            <figcaption>Fig 6. Fabricated spine mechanism showing modular mounting points.</figcaption>
+                        </figure>
+                        <figure style="margin-top: 1rem;">
+                            <img src="images/spine_kinematic_diag.png" alt="Spine Schematic">
+                            <figcaption>Fig 7. Kinematic schematic of the spine.</figcaption>
+                        </figure>
+                    </div>
+                </div>
+
+                <hr style="margin: 3rem 0; border-color: var(--border-color);">
+
+                <h2 class="reveal">Fabrication Process</h2>
+
+                <div class="reveal">
+                    <h3>Smart Composite Microstructures (SCM)</h3>
+                    <p>We utilized a 5-layer SCM laminate structure to create lightweight, monolithic kinematic chains.
+                        The stack-up consists of:</p>
+                    <div class="card">
+                        <ol>
+                            <li><strong>Rigid:</strong> Cardstock/Posterboard (Structural base)</li>
+                            <li><strong>Adhesive:</strong> Pressure-sensitive acrylic adhesive</li>
+                            <li><strong>Flex:</strong> Kapton/PET Polymer film (Flexural hinge)</li>
+                            <li><strong>Adhesive:</strong> Pressure-sensitive acrylic adhesive</li>
+                            <li><strong>Rigid:</strong> Cardstock/Posterboard (Structural cap)</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="grid-2 reveal" style="margin-top: var(--space-md);">
+                    <div>
+                        <h4>Mechanism Definition (DXF)</h4>
+                        <p>The design workflow began in LibreCAD. To interface correctly with our Python generation
+                            script, the `.dxf` files were structured with strict layer management:</p>
+                        <ul>
+                            <li><span style="color:red">Red (Cuts):</span> Outer boundaries and release paths.</li>
+                            <li><span style="color:blue">Blue (Hinges):</span> Internal flexural zones (material
+                                removal).</li>
+                            <li><span style="color:green">Green (Mounts):</span> Pilot holes for pin-jig alignment and
+                                motor mounts.</li>
+                        </ul>
+                        <p>We designed the central spine as a modular unit, allowing us to physically swap components to
+                            test varying lengths and stiffnesses without redesigning the whole robot.</p>
+                    </div>
+                    <div>
+                        <figure>
+                            <img src="images/DXF_layout_jensens_linkage.png" alt="DXF Layout">
+                            <figcaption>Fig 8. Color-coded 2D DXF layout for SCM processing.</figcaption>
+                        </figure>
+                    </div>
+                </div>
+
+                <div class="reveal" style="margin-top: var(--space-md);">
+                    <h4>Manufacturing Sequence & Assembly</h4>
+                    <p>The fabrication followed a sequential process:</p>
+                    <ol>
+                        <li><strong>Laser Machining:</strong> "First Pass" pattern cut into individual rigid/adhesive
+                            layers.</li>
+                        <li><strong>Lamination:</strong> Five layers aligned using a pin-jig system and heat-pressed.
+                        </li>
+                        <li><strong>Release:</strong> "Final Cut" pattern applied to release the structure.</li>
+                        <li><strong>Folding:</strong> 2D laminates folded into 3D kinematic configurations.</li>
+                    </ol>
+
+                    <div style="display: flex; gap: 1rem; overflow-x: auto; margin-top: 1rem;">
+                        <figure>
+                            <img src="images/jensen_linkage_manufacturing.png" alt="Manufacturing Process">
+                            <figcaption>SCM Manufacturing Sequence</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="images/fivelayer_laser_cutting_process.jpg" alt="Laser Cutting">
+                            <figcaption>Laser Cutting Process</figcaption>
+                        </figure>
+                    </div>
+                </div>
+
+                <div class="reveal" style="margin-top: var(--space-md);">
+                    <h3>Electronic Integration & Iteration</h3>
+                    <div class="grid-2">
+                        <div>
+                            <p><strong>Motor Mounting:</strong> Custom mounts were 3D printed (PLA, 30% Gyroid infill).
+                                We iterated to address initial failures:
+                            <ul>
+                                <li><strong>Stiffness:</strong> Switched to thicker flexure material to prevent
+                                    buckling.</li>
+                                <li><strong>Protection:</strong> Implemented software torque limiting to prevent shaft
+                                    shear.</li>
+                            </ul>
+                            </p>
+                            <p>The control logic is handled by an ESP32 microcontroller running MicroPython, with L298N
+                                drivers handling the power distribution.</p>
+                        </div>
+                        <div>
+                            <figure>
+                                <img src="images/3dprinted_parts.png" alt="3D Printed Parts">
+                                <figcaption>3D Printed motor mounts and couplers.</figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <!-- TAB: ANALYSIS & RESULTS -->
+    <div id="analysis" class="tab-content" style="display:none;">
+        <section>
+            <div class="container">
+                <h2 class="reveal">Analysis & Results</h2>
+
+                <div class="grid-2 reveal">
+                    <div class="card">
+                        <h3>MuJoCo Dynamic Model</h3>
+                        <p>We use MuJoCo as the primary environment for dynamic simulation. The model captures
+                            rigid-body dynamics, joint constraints, contact physics, and the electromechanical behavior
+                            of the actuators. The kinematic tree is structured to replicate the physical assembly:
+                            Worldbody with friction, Chassis root, Spine subtree, and Leg subassemblies.</p>
+
+                        <h4>Simulation Parameters</h4>
+                        <ul style="font-size: 0.9em;">
+                            <li><strong>Timestep:</strong> 0.001 s (Stable RK4)</li>
+                            <li><strong>Integrator:</strong> RK4 (Runge-Kutta 4)</li>
+                            <li><strong>Friction:</strong> 0.5 (Tangential), 0.1 (Torsional)</li>
+                            <li><strong>Motor Gain ($k_v$):</strong> 5.0 (Calibrated to Maxon motors)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <figure>
+                            <img src="images/mujoco_model_isoview.png" alt="MuJoCo Model">
+                            <figcaption>MuJoCo Model Isometric View</figcaption>
+                        </figure>
+                        <figure style="margin-top:1rem;">
+                            <img src="images/mujoco_spine_topview.png" alt="Spine Top View">
+                            <figcaption>Model Top View showing Spine</figcaption>
+                        </figure>
+                    </div>
+                </div>
+
+                <div class="reveal" style="margin-top: var(--space-md);">
+                    <h3>Parameter Optimization</h3>
+                    <p>A central goal was to determine the optimal spine configuration. We performed a parametric sweep
+                        on the <strong>Inner Shaft Size ($S_{inner}$)</strong> vector $(x,y,z)$ to maximize gait
+                        stability (minimize yaw oscillation, maximize forward velocity).</p>
+
+                    <div class="grid-2">
+                        <div>
+                            <h4>Optimization Results</h4>
+                            <ul>
+                                <li><strong>Thickness:</strong> 2.0 mm (Resist vertical bending)</li>
+                                <li><strong>Length:</strong> 50.0 mm (Optimal balance of stability vs turning inertia)
+                                </li>
+                                <li><strong>Width:</strong> 30.0 mm (Lateral stiffness)</li>
+                            </ul>
+                            <p>Using $L=50$mm, the simulation produced a stable, repeatable gait with minimal
+                                "fishtailing", unlike the unstable $L=90$mm case.</p>
+                            <figure style="margin-top:1rem;">
+                                <img src="images/optimisation_results.jpeg" alt="Optimization Graph">
+                                <figcaption>Parameter Optimization Results</figcaption>
+                            </figure>
+                        </div>
+                        <div>
+                            <figure>
+                                <img src="images/simdata_50mm_spine_length.png" alt="Stable Gait Simulation">
+                                <figcaption>Simulation Data: Stable Gait ($L=50mm$)</figcaption>
+                            </figure>
+                            <figure style="margin-top:1rem;">
+                                <img src="images/simdata_90mm_spine_length.png" alt="Unstable Gait Simulation">
+                                <figcaption>Simulation Data: Unstable Gait ($L=90mm$)</figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+
+                <hr style="margin: 3rem 0; border-color: var(--border-color);">
+
+                <div class="reveal">
+                    <h2>Experimental Validation</h2>
+                    <p>Experiments were conducted on a smooth whiteboard surface using overhead video tracking. We
+                        compared the physics model predictions against the physical reality.</p>
+
+                    <div class="grid-2" style="margin-top: 1rem;">
+                        <div>
+                            <h3>Results: Sim-to-Real Gap</h3>
+                            <p>Contrary to the simulation predictions (stable walking), the physical prototype exhibited
+                                <strong>"Trajectory Churning"</strong>:
+                            </p>
+                            <ul>
+                                <li><strong>Net Displacement:</strong> $\approx 0$. The robot oscillated within a 10cm
+                                    bounding box.</li>
+                                <li><strong>Heading Drift:</strong> Severe yaw drift ($>40^\circ$ over 18s).</li>
+                                <li><strong>Roll Instability:</strong> Oscillations between $\pm 20^\circ$.</li>
+                            </ul>
+                            <p>The failure was not just quantitative (slower speed) but qualitative (mode switch from
+                                walking to slipping).</p>
+                        </div>
+                        <div>
+                            <figure>
+                                <img src="images/orientation_vertical_motion.jpeg" alt="Experimental Data">
+                                <figcaption>Experimental tracking data showing "churning" (left) and high-frequency
+                                    vertical oscillation (right).</figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card reveal" style="margin-top: var(--space-md);">
+                    <h3>Scientific Analysis of Divergence</h3>
+
+                    <h4>1. Friction Cone Violation</h4>
+                    <p>The simulation assumed a friction coefficient of $\mu=0.5$ (Rubber on concrete). The
+                        Cardstock-on-Whiteboard interface had $\mu \approx 0.15$. Consequently, the leg propulsion force
+                        $F_p$ exceeded the static friction limit $\mu N$, causing the feet to slip backward instead of
+                        propelling the body forward.</p>
+
+                    <h4>2. Parasitic Compliance</h4>
+                    <p>The Cardstock legs, while stiff in tension, exhibited out-of-plane buckling under load. This
+                        "parasitic" compliance reduced the effective step height, causing the swing legs to drag (seen
+                        in the Z-axis data) rather than clear the ground.</p>
+
+                    <h4>3. Unmodeled Asymmetry</h4>
+                    <p>The simulation assumed a perfectly symmetric spine. In reality, minor manufacturing variances in
+                        the hand-folded Kapton flexures created an asymmetric restoring torque, leading to the
+                        continuous yaw drift observed.</p>
+                </div>
+
+                <div class="reveal" style="margin-top: var(--space-md);">
+                    <h3>Conclusion & Future Work</h3>
+                    <p>This work successfully validated the efficacy of a Cross-Axis Flexure spine in stabilizing a
+                        quadrupedal Jansen-walker in simulation, establishing a clear link between spine length and gait
+                        stability. However, the physical implementation highlighted critical constraints in SCM
+                        robotics.</p>
+                    <p>To close the Sim-to-Real gap, future iterations must:</p>
+                    <ol>
+                        <li><strong>Increase Friction:</strong> Add silicone/rubber pads to leg tips to satisfy the
+                            friction cone.</li>
+                        <li><strong>Stiffen Links:</strong> Transition to FR4 or Carbon Fiber to eliminate parasitic
+                            buckling.</li>
+                        <li><strong>Closed-Loop Control:</strong> Integrate IMU feedback to actively correct for spinal
+                            asymmetry.</li>
+                    </ol>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <!-- TAB: PROJECT 01 -->
+    <div id="project01" class="tab-content" style="display:none;">
+        <section>
+            <div class="container">
+                <h2 class="reveal">Project Assignment 01: Laminate Parallel Articulated Spine</h2>
+                <p class="reveal"><strong>A Laminate Parallel Articulated Spine for a Cat-Scale Quadruped Robot</strong>
+                </p>
+                <p class="reveal" style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 2rem;">Jeevan
+                    Hebbal
+                    Manjunath &bull; Varun Karthik &bull; Yeshwanth Reddy Gurreddy</p>
+
+                <a href="https://drive.google.com/file/d/1mqP-dFFUAFVAbxgucjJ5ECFuyckytSxH/view?usp=drive_link"
+                    target="_blank" class="btn reveal" style="margin-bottom: 3rem;">Download Report (PDF)</a>
+
+                <!-- Abstract -->
+                <div class="reveal">
+                    <h3>Abstract</h3>
+                    <p>This project presents the design and physical prototyping of a bio-inspired mechanism intended
+                        to serve as the articulated spine of a small quadruped robot with Jansen mechanisms for its four
+                        legs. Taking inspiration from the classical Sarrus linkage, we develop a modified planar
+                        parallel linkage that connects two rigid 3D-printed chassis plates and is intended to provide
+                        vertical support while allowing controlled in-plane bending. The spine is realized in a Smart
+                        Composite Microstructures (SCM) format using a five-layer laminate
+                        (rigid--adhesive--flexure--adhesive--rigid). Stiff outer layers form the links, while the
+                        flexure
+                        layer creates passive spring-like joints that generate a restoring torque as the spine bends.
+                        The overall morphology is scaled to roughly match the proportions of a juvenile cat while
+                        operating at a much lower mass of about 250g. We construct both a paper analogue of the
+                        mechanism and a laminate prototype integrated into a quadruped chassis. A planar kinematic
+                        model,
+                        implemented in Python, approximates the six-link Sarrus-based spine as an equivalent three-joint
+                        serial chain in the sagittal plane. Using this model, we compute representative joint torques
+                        and joint velocities for expected ground reaction forces and vertical motions of the front
+                        chassis. The results demonstrate that a linkage-based, passively compliant spine is feasible
+                        within the constraints of laminate fabrication and provides a structured way to tune the
+                        directional stiffness of the robot torso for future integration with Jansen-leg quadruped
+                        locomotion.</p>
+                </div>
+
+                <!-- Introduction & Rationale -->
+                <div class="grid-2 reveal" style="margin-top: var(--space-md);">
+                    <div>
+                        <h3>1. Introduction</h3>
+                        <p>Bio-inspired legged robots often borrow structural ideas from animals to improve stability
+                            and maneuverability. Many existing designs use rigid torsos or uniformly flexible backbones,
+                            which limit force transmission.</p>
+                        <p>In contrast, we explore a mechanical articulated spine for a small quadruped robot. The
+                            design
+                            is inspired by the classical Sarrus linkage but modified into a planar parallel structure
+                            connecting two rigid chassis plates.</p>
+                    </div>
+                    <div class="card">
+                        <h4>1.1 Project Rationale</h4>
+                        <p>This project isolates the spine as the central design element:</p>
+                        <ul>
+                            <li><strong>Parallel Articulated Spine:</strong> High vertical stiffness with controlled
+                                in-plane bending.</li>
+                            <li><strong>5-Layer Laminate:</strong> Stiff links with compliant flexure joints.</li>
+                            <li><strong>Jansen Compatibility:</strong> Designed for planar leg mechanisms.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Bio-Inspiration & Scaling -->
+                <div class="grid-2 reveal" style="margin-top: var(--space-md);">
+                    <div>
+                        <h3>2. Bio-Inspiration</h3>
+                        <p><strong>Hybrid Concept:</strong> Physically scaled to a juvenile cat (Body Plan) but
+                            mechnically supervised by myriapod-style robots (Sarrus-linkage backbone).</p>
+                        <p>This hybrid system resembles a mammal externally but functions like a segmented arthropod
+                            internally, allowing the torso to store energy and extend stride length.</p>
+                    </div>
+                    <div class="card">
+                        <h4>2.2 Scale Selection</h4>
+                        <div style="overflow-x: auto;">
+                            <table class="data-table" style="font-size: 0.8rem;">
+                                <thead>
+                                    <tr>
+                                        <th>Quantity</th>
+                                        <th>Juvenile Cat</th>
+                                        <th>Robot Target</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Mass</td>
+                                        <td>1.5 - 2.0 kg</td>
+                                        <td>0.25 kg</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Body Length</td>
+                                        <td>0.25 - 0.30 m</td>
+                                        <td>0.25 m</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Walking Speed</td>
+                                        <td>0.4 - 0.6 m/s</td>
+                                        <td>0.2 - 0.3 m/s</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Robot Specs -->
+                <div class="grid-2 reveal" style="margin-top: var(--space-md);">
+                    <div>
+                        <h3>3. Robot Specifications</h3>
+                        <p>The key physics-based parameters combine biological scaling with conservative design choices
+                            for the laminate process.</p>
+                        <p><strong>Mass & Forces:</strong> We target a total mass of 0.25kg, resulting in a body weight
+                            of ~2.45N and peak ground reaction forces of 3-5N.</p>
+                        <p><strong>Materials:</strong> The SCM process uses FR4 for rigid links (15-25 GPa) and Kapton
+                            for flexures (2.5-3.0 GPa).</p>
+                    </div>
+                    <div>
+                        <div style="overflow-x: auto;">
+                            <table class="data-table" style="font-size: 0.8em;">
+                                <thead>
+                                    <tr>
+                                        <th>Parameter</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Peak Vertical Accel ($a_z$)</td>
+                                        <td>~6.2 $m/s^2$</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Torsional Stiffness ($k_{\theta}$)</td>
+                                        <td>~1.4 Nm/rad</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Max Spine Pitch</td>
+                                        <td>~0.17 rad</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Physical Prototypes -->
+                <div class="grid-2 reveal" style="margin-top: var(--space-md);">
+                    <div>
+                        <h3>4. Physical Prototypes</h3>
+                        <p>To develop intuition, we first built a paper mechanism using slit-and-fold joints. The
+                            colored prismatic frames represent the front and rear body segments.</p>
+                        <p>This validates the qualitative Sarrus-like motion before moving to the final 5-layer FR4
+                            laminate construction.</p>
+                    </div>
+                    <div>
+                        <figure>
+                            <img src="images/fig_prototype.png" alt="Paper Prototype" class="diagram">
+                            <figcaption>Paper prototype illustrating the Sarrus-like spinal motion.</figcaption>
+                        </figure>
+                    </div>
+                </div>
+
+                <!-- Geometry & Metrics -->
+                <div class="grid-2 reveal" style="margin-top: var(--space-md);">
+                    <div>
+                        <h3>5. Geometry & Kinematics</h3>
+                        <p>The spine is a six-link Sarrus mechanism approximated as a planar 3R serial chain in Python.
+                        </p>
+                        <figure>
+                            <img src="images/spine_kinematic_diagram.jpeg" alt="Kinematic Diagram" class="diagram">
+                        </figure>
+                    </div>
+                    <div class="card">
+                        <h3>6. Performance Metrics</h3>
+                        <h4>Peak Vertical Acceleration</h4>
+                        <p class="equation">$$ a_z \approx \frac{4.0 - 2.45}{0.25} \approx 6.2 \text{ m/s}^2 $$</p>
+                        <h4>Target Torsional Stiffness</h4>
+                        <p class="equation">$$ k_{\theta} \approx \frac{0.25}{0.174} \approx 1.4 \text{ Nm/rad} $$</p>
+                    </div>
+                </div>
+
+                <!-- Kinematic Model -->
+                <div class="grid-2 reveal" style="margin-top: var(--space-md);">
+                    <div>
+                        <h3>7. Kinematic Model</h3>
+                        <p><strong>Forward Kinematics:</strong> The endpoint is the vector sum of three links:</p>
+                        <p class="equation" style="font-size: 0.8rem;">$$ P_3 = P_0 + \sum l_i [\cos\alpha_i,
+                            \sin\alpha_i]^T $$</p>
+                    </div>
+                    <div>
+                        <h3>Force Mapping</h3>
+                        <p><strong>Static Analysis:</strong> We map endpoint forces to joint torques:</p>
+                        <p class="equation">$$ \boldsymbol{\tau} = J^T \mathbf{F}_{ee} $$</p>
+                        <p>A 4N downward load results in torques within the range of hobby servos.</p>
+                    </div>
+                </div>
+
+                <!-- Conclusion -->
+                <div class="grid-2 reveal" style="margin-top: var(--space-md);">
+                    <div>
+                        <h3>8. Discussion</h3>
+                        <p>The planar 3R model approximates body-level forces well. Future work includes extending to 3D
+                            (lateral bending), integrating Jansen legs, and experimentally calibrating stiffness.</p>
+                    </div>
+                    <div class="card">
+                        <h3>9. Conclusion</h3>
+                        <p>We successfully designed a laminate articulated spine producing vertical support with
+                            controlled compliance. The 5-layer stack is feasible, and the kinematics are tunable for
+                            future
+                            quadruped prototypes.</p>
+                    </div>
+                </div>
+
+                <!-- References -->
+                <div class="reveal" style="margin-top: var(--space-md);">
+                    <h3>References</h3>
+                    <div class="card" style="font-size: 0.9rem; color: var(--text-muted);">
+                        <ol>
+                            <li>Hoover, A. M., & Fearing, R. S. (2008). Fast scale prototyping for folded millirobots.
+                                <em>IROS</em>.
+                            </li>
+                            <li>Eckert, P., et al. (2015). Spine and leg design for small quadruped robots.
+                                <em>IJRR</em>.
+                            </li>
+                            <li>Bing, Z., et al. (2019). Effect of spinal flexion on locomotion of small robots.
+                                <em>Bioinspiration & Biomimetics</em>.
+                            </li>
+                            <li>Dürr, V., et al. (2018). Legged locomotion and inter-leg coordination in insects.
+                                <em>Frontiers in Comp. Neuro.</em>.
+                            </li>
+                            <li>Aukes, D. M. (2025). <em>Foldable Robotics</em>.</li>
+                        </ol>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <!-- TAB: TEAM -->
+    <div id="team" class="tab-content" style="display:none;">
+        <section>
+            <div class="container">
+                <h2 class="reveal">Team 01</h2>
+                <div class="team-grid reveal">
+                    <div class="team-member">
+                        <div class="member-icon">JH</div>
+                        <div class="member-role">Team Member</div>
+                        <h4>Jeevan Hebbal Manjunath</h4>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem; color: var(--text-muted);"> jhebbalm@asu.edu
+                        </p>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-icon">VK</div>
+                        <div class="member-role">Team Member</div>
+                        <h4>Varun Karthik</h4>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem; color: var(--text-muted);">vnolas82@asu.edu</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-icon">YG</div>
+                        <div class="member-role">Team Member</div>
+                        <h4>Yeshwanth Reddy Gurreddy</h4>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem; color: var(--text-muted);">ygurreddy@asu.edu
+                        </p>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 
-    <section id="mechanism">
-        <div class="container">
-            <h2 class="reveal">Mechanism Design</h2>
+    <!-- TAB: GALLERY -->
+    <div id="gallery" class="tab-content" style="display:none;">
+        <section>
+            <div class="container">
+                <h2 class="reveal">Project Media Gallery</h2>
+                <p class="reveal">Visual documentation of our simulation, fabrication, and testing process.</p>
 
-            <div class="grid-2" style="margin-bottom: var(--space-lg);">
-                <div class="reveal">
-                    <h3>Kinematic Topology</h3>
-                    <p>The robot consists of three rigid segments:</p>
-                    <ol style="margin-left: 1.5rem; margin-bottom: 1rem; color: var(--text-muted);">
-                        <li><strong>Anterior Joint (Seg 1–2):</strong> Rigidified to minimize parasitic oscillation
-                            during frontal collisions or sensing tasks.</li>
-                        <li><strong>Posterior Joint (Seg 2–3):</strong> Utilizes a flexure-based <strong>Sarrus
-                                linkage</strong>, permitting restricted yaw for turning while maintaining rigidity in
-                            pitch and roll.</li>
+                <!-- Highlight Video -->
+                <div class="reveal" style="margin-top: var(--space-md); margin-bottom: 4rem;">
+                    <h3>Project Highlight Video</h3>
+                    <div
+                        style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: var(--border-radius); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                        <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                            src="https://www.youtube.com/embed/bI6G6X1Ti7c" title="Project Highlight" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- Image Grid -->
+                <h3>Project Gallery</h3>
+                <div class="grid-2 reveal">
+                    <div>
+                        <figure>
+                            <img src="images/final_robot_assembly.png" alt="Robot Assembly">
+                            <figcaption>Final Robot Assembly</figcaption>
+                        </figure>
+                    </div>
+                    <div>
+                        <figure>
+                            <img src="images/spine_design.jpeg" alt="Spine Design CAD">
+                            <figcaption>Spine Design CAD Model</figcaption>
+                        </figure>
+                    </div>
+
+                    <div>
+                        <figure>
+                            <img src="images/jensen_linkage_manufacturing.png" alt="Leg Fabrication">
+                            <figcaption>Jansen Linkage Fabrication Layout</figcaption>
+                        </figure>
+                    </div>
+                    <div>
+                        <figure>
+                            <img src="images/3dprinted_parts.png" alt="3D Printed Components">
+                            <figcaption>3D Printed Chassis Components</figcaption>
+                        </figure>
+                    </div>
+
+                    <div>
+                        <figure>
+                            <img src="images/mujoco_model_isoview.png" alt="MuJoCo Model">
+                            <figcaption>MuJoCo Simulation Model</figcaption>
+                        </figure>
+                    </div>
+                    <div>
+                        <figure>
+                            <img src="images/mujoco_spine_topview.png" alt="MuJoCo Spine Analysis">
+                            <figcaption>Spine Deformation Analysis (MuJoCo)</figcaption>
+                        </figure>
+                    </div>
+
+                    <div>
+                        <figure>
+                            <img src="images/exp_setup.png" alt="Experimental Setup">
+                            <figcaption>Experimental Testing Setup</figcaption>
+                        </figure>
+                    </div>
+                    <div>
+                        <figure>
+                            <img src="images/orientation_vertical_motion.jpeg" alt="Motion Analysis">
+                            <figcaption>Orientation & Vertical Motion Analysis</figcaption>
+                        </figure>
+                    </div>
+
+                    <div>
+                        <figure>
+                            <img src="images/optimisation_results.jpeg" alt="Optimization Results">
+                            <figcaption>Optimization Results Plot</figcaption>
+                        </figure>
+                    </div>
+                    <div>
+                        <figure>
+                            <img src="images/DXF_layout_jensens_linkage.png" alt="Linkage DXF">
+                            <figcaption>Laser Cutting Layout (DXF)</figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- TAB: REFERENCES -->
+    <div id="references" class="tab-content" style="display:none;">
+        <section>
+            <div class="container">
+                <h2 class="reveal">References</h2>
+                <div class="card reveal" style="font-size: 0.9rem; color: var(--text-muted);">
+                    <ol>
+                        <li>Hoffman, K. L., & Wood, R. J. (2011). Myriapod-like ambulation of a segmented microrobot.
+                            <em>Autonomous Robots</em>.
+                        </li>
+                        <li>Bing, Z., et al. (2023). Lateral flexion of a compliant spine improves motor performance.
+                            <em>Science Robotics</em>.
+                        </li>
+                        <li>Hoover, A. M., & Fearing, R. S. (2008). A fast scale prototyping process for folded
+                            millirobots. <em>ICRA</em>.</li>
+                        <li>Dürr, V., et al. (2019). Integrative biomimetics of autonomous hexapedal locomotion.
+                            <em>Frontiers in Neurorobotics</em>.
+                        </li>
+                        <li>Eckert, P., et al. (2015). Comparing the effect of different spine and leg designs.
+                            <em>ICRA</em>.
+                        </li>
                     </ol>
-                    <p>This hybrid approach aims to balance the stability required for sensing with the flexibility
-                        needed for maneuverability.</p>
-                </div>
-                <div class="reveal">
-                    <figure>
-                        <img src="images/fig_spine.png" alt="Spine Model" class="diagram">
-                        <figcaption>Fig 2. Digital model of the Sarrus linkage spine segment. The flexure geometry
-                            allows for turning compliance while resisting vertical bending.</figcaption>
-                    </figure>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 
-    <section id="math">
-        <div class="container">
-            <h2 class="reveal">Mathematical Modeling</h2>
+    <!-- Navigation Controls -->
+    <div class="nav-controls">
+        <button id="prevBtn" class="btn nav-btn">Previous</button>
+        <button id="nextBtn" class="btn nav-btn">Next</button>
+    </div>
 
-            <div class="grid-2">
-                <div class="card reveal">
-                    <h3>Kinematics & Jacobian</h3>
-                    <p>The foot position \(\mathbf{p}_f(\phi)\) is a nonlinear function of the crank angle \(\phi\). The
-                        velocity relationship is:</p>
-                    <p class="equation">$$ \dot{\mathbf{p}}_f = J_f(\phi)\dot{\phi} $$</p>
-                    <p>where \( J_f(\phi) = \partial \mathbf{p}_f / \partial \phi \) is the kinematic Jacobian.</p>
-                    <p>The characteristic transmission ratio, \(\ell_J\), derived from leg geometry at mid-stance is:
-                    </p>
-                    <p class="equation">$$ \ell_J \equiv \|J_f(\phi_\text{ms})\| \approx 0.02 \, \text{m/rad} $$</p>
-                </div>
-                <div class="card reveal" style="transition-delay: 0.2s;">
-                    <h3>Force & Power Estimation</h3>
-                    <p>To support the robot against gravity with a safety factor of 2, the peak vertical Ground Reaction
-                        Force (GRF) is:</p>
-                    <p class="equation">$$ F_{z,\text{peak}} \approx \frac{2 \cdot m_\text{robot} g}{N_\text{leg} \beta}
-                        \approx 5.5 \times 10^{-3} \, \text{N} $$</p>
-                    <p>Required actuator torque via Jacobian transpose:</p>
-                    <p class="equation">$$ \tau_\text{req} \approx \ell_J F_{z,\text{peak}} \approx 1.1 \times 10^{-4}
-                        \, \text{Nm} $$</p>
-                    <p>Required power at 5 Hz (\(\omega \approx 31.4 \, \text{rad/s}\)):</p>
-                    <p class="equation">$$ P_\text{req} = \tau_\text{req} \omega \approx 3.5 \times 10^{-3} \, \text{W}
-                        $$</p>
-                </div>
-            </div>
-
-            <div class="card reveal" style="margin-top: var(--space-md);">
-                <h3>System Dynamics</h3>
-                <p>The system dynamics are governed by the Euler-Lagrange equation:</p>
-                <p class="equation">$$ M(\mathbf{q})\ddot{\mathbf{q}} + C(\mathbf{q},\dot{\mathbf{q}})\dot{\mathbf{q}} +
-                    K(\mathbf{q}) = \boldsymbol{\tau} $$</p>
-                <p>where \(\mathbf{q} \in \mathbb{R}^6\) represents the generalized coordinates (3 body yaw angles, 3
-                    leg crank angles). The stiffness matrix \(K(\mathbf{q})\) is modified such that anterior stiffness
-                    terms \(k_{\text{ant}} \to \infty\) (rigid connection), while posterior terms retain finite values.
-                </p>
-            </div>
-
-            <div class="reveal" style="margin-top: var(--space-md); text-align: center;">
-                <figure style="max-width: 800px; margin: 0 auto;">
-                    <img src="images/fig_gait.jpg" alt="Gait States">
-                    <figcaption>Fig 5. Simulation of kinematic configurations at key gait events (Touchdown, Mid-stance,
-                        Lift-off).</figcaption>
-                </figure>
-            </div>
-        </div>
-    </section>
-
-    <section id="prototype">
-        <div class="container">
-            <h2 class="reveal">Prototype Development</h2>
-            <p class="reveal" style="margin-bottom: var(--space-md); max-width: 800px;">
-                Physical implementation using Smart Composite Microstructures (SCM) fabrication techniques with
-                laser-machined cardstock and Kapton flexural hinges.
-            </p>
-
-            <!-- Video Highlight -->
-            <div class="reveal" style="margin-bottom: 3rem;">
-                <div
-                    style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: var(--border-radius); border: 1px solid var(--bg-card-border); box-shadow: 0 0 30px rgba(0,0,0,0.5);">
-                    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
-                        src="https://www.youtube.com/embed/j5LVHgwi_0Q" title="YouTube video player" frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowfullscreen>
-                    </iframe>
-                </div>
-                <p
-                    style="text-align: center; margin-top: 1rem; color: var(--accent-secondary); font-family: var(--font-mono); font-size: 0.9rem;">
-                    // PROTOTYPE LOCOMOTION DEMONSTRATION
-                </p>
-            </div>
-
-            <div class="gallery-grid reveal">
-                <div class="gallery-item">
-                    <img src="images/fig_prototype.png" alt="Complete prototype assembly">
-                    <div class="gallery-caption">Complete prototype assembly</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="images/spine_prototype_1.jpg" alt="Spine mechanism detail">
-                    <div class="gallery-caption">Spine mechanism detail</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="images/spine_prototype_1_scraps.jpg" alt="SCM fabrication components">
-                    <div class="gallery-caption">SCM fabrication components</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="images/leg_design.jpg" alt="Jansen linkage leg mechanism">
-                    <div class="gallery-caption">Jansen linkage leg mechanism</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="images/leg_design_1.jpg" alt="Assembled leg linkage">
-                    <div class="gallery-caption">Assembled leg linkage</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="images/leg_scrap.jpg" alt="Laser-cut leg components">
-                    <div class="gallery-caption">Laser-cut leg components</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="validation">
-        <div class="container">
-            <h2 class="reveal">Experimental Validation Plan</h2>
-            <p class="reveal">To bridge the gap between simulation and physical reality, we propose a rigorous System
-                Identification (SysID) and implementation roadmap.</p>
-
-            <div class="grid-3" style="margin-top: var(--space-md);">
-                <div class="card reveal">
-                    <h3 style="color: var(--accent-primary);">01. Servo Characterization</h3>
-                    <p>We will use a dedicated dynamometer setup with a load cell and optical encoder to generate
-                        Torque-Speed curves and estimate internal friction.</p>
-                </div>
-                <div class="card reveal" style="transition-delay: 0.1s;">
-                    <h3 style="color: var(--accent-primary);">02. Stiffness Testing</h3>
-                    <p>Flexures and spinal links will be subjected to standard 3-point bending and torsion tests using a
-                        precision force gauge to extract \(k_{lin}\) and \(k_{tor}\) values.</p>
-                </div>
-                <div class="card reveal" style="transition-delay: 0.2s;">
-                    <h3 style="color: var(--accent-primary);">03. Friction Coefficient</h3>
-                    <p>We will drag the fabricated foot materials across the target substrate at varying normal loads to
-                        empirically determine the coefficients of static and kinetic friction (\(\mu_s, \mu_k\)).</p>
-                </div>
-            </div>
-
-            <div class="card reveal" style="margin-top: var(--space-md);">
-                <h3>Implementation Roadmap</h3>
-                <table class="data-table">
-                    <tr>
-                        <th>Timeline</th>
-                        <th>Phase & Milestones</th>
-                    </tr>
-                    <tr>
-                        <td>Nov 1 -- Nov 14</td>
-                        <td><strong>Design Phase:</strong> Finalize SCM patterns; Sourcing materials.</td>
-                    </tr>
-                    <tr>
-                        <td>Nov 15 -- Nov 18</td>
-                        <td><strong>Pre-Fabrication:</strong> Electronics prep; Code framework setup.</td>
-                    </tr>
-                    <tr>
-                        <td>Nov 19</td>
-                        <td><strong>Hardware Milestone:</strong> Motor Arrival.</td>
-                    </tr>
-                    <tr>
-                        <td>Nov 19 -- Nov 21</td>
-                        <td><strong>Characterization:</strong> Motor torque/speed tests; friction tests.</td>
-                    </tr>
-                    <tr>
-                        <td>Nov 22 -- Nov 28</td>
-                        <td><strong>Fabrication & Assembly:</strong> Laser cutting; lamination; assembly.</td>
-                    </tr>
-                    <tr>
-                        <td>Nov 29 -- Dec 5</td>
-                        <td><strong>Integration:</strong> Wiring ESP32; Loading gait code; Initial tests.</td>
-                    </tr>
-                    <tr>
-                        <td>Dec 6 -- Dec 8</td>
-                        <td><strong>Validation:</strong> Final data collection; Report compilation.</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <section id="references">
-        <div class="container">
-            <h2 class="reveal">References</h2>
-            <div class="card reveal" style="font-size: 0.9rem; color: var(--text-muted);">
-                <ol>
-                    <li>K. L. Hoffman and R. J. Wood, "Myriapod-like ambulation of a segmented microrobot,"
-                        <em>Autonomous Robots</em>, vol. 31, pp. 103–114, 2011.
-                    </li>
-                    <li>Z. Liu, et al., "Kinematics, dynamics and control of stiffness-tunable soft robots,"
-                        <em>Bioinspiration & Biomimetics</em>, vol. 19, no. 2, 2024.
-                    </li>
-                    <li>Z. Bing, et al., "Lateral flexion of a compliant spine improves motor performance in a
-                        bioinspired mouse robot," <em>Science Robotics</em>, vol. 8, no. 8, 2023.</li>
-                    <li>P. Billeschou, et al., "Framework for developing bio-inspired morphologies for walking robots,"
-                        <em>Applied Sciences</em>, vol. 10, no. 19, p. 6986, 2020.
-                    </li>
-                    <li>S. E. Nodehi, et al., "Porcospino Flex: a bio-inspired single-track robot with a 3D-printed,
-                        flexible, compliant vertebral column," <em>Robotics</em>, vol. 13, no. 5, p. 76, 2024.</li>
-                    <li>A. M. Hoover and R. S. Fearing, "A fast scale prototyping process for folded millirobots," in
-                        <em>Proc. IEEE Int. Conf. Robotics and Automation (ICRA)</em>, 2008.
-                    </li>
-                    <li>C. D. Önal, "Design and fabrication of a foldable hexapod robot towards experimental swarm
-                        applications," in <em>Proc. IEEE Int. Conf. Robotics and Automation (ICRA)</em>, 2014.</li>
-                    <li>V. Dürr, et al., "Integrative biomimetics of autonomous hexapedal locomotion," <em>Frontiers in
-                            Neurorobotics</em>, vol. 13, p. 88, 2019.</li>
-                    <li>P. Eckert, et al., "Comparing the effect of different spine and leg designs for a small bounding
-                        quadruped robot," in <em>Proc. IEEE Int. Conf. Robotics and Automation (ICRA)</em>, 2015, pp.
-                        3128–3133.</li>
-                </ol>
-            </div>
-        </div>
-    </section>
-
+    <!-- Footer -->
     <footer>
         <div class="container">
-            <p>&copy; 2025 Team 01 - RAS 557 Final Project</p>
-            <p class="footer-credit">Built for RAS-557, Team-01</p>
+            <p>&copy; 2024 Team 01 - Bio-Inspired Robotics | RAS 557</p>
         </div>
     </footer>
+
 
     <script src="js/main.js"></script>
 </body>

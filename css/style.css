@@ -383,6 +383,7 @@ nav .container {
 .nav-links {
     display: flex;
     gap: 3rem;
+    align-items: center;
 }
 
 .nav-links a {
@@ -473,19 +474,50 @@ nav .container {
 }
 
 /* Image Styling */
-img {
-    max-width: 100%;
-    height: auto;
+/* Image Styling & Figures */
+figure {
+    margin: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+figure img {
+    width: 100%;
+    height: 300px;
+    /* Fixed height for consistency in grids */
+    object-fit: contain;
+    /* Ensure whole image is visible */
+    background: rgba(0, 0, 0, 0.2);
+    /* Background for transparent PNGs */
     border-radius: var(--border-radius);
     border: 1px solid var(--bg-card-border);
     transition: all 0.3s ease;
+}
+
+/* Specific overrides for standalone figures */
+.figure-large img {
+    height: auto;
+    max-height: 500px;
+}
+
+figcaption {
+    margin-top: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-family: var(--font-mono);
+    text-align: center;
+    border-left: 2px solid var(--accent-primary);
+    padding-left: 0.5rem;
+    display: inline-block;
 }
 
 .diagram {
     filter: invert(1) hue-rotate(180deg) contrast(1.2);
     mix-blend-mode: screen;
     border: none;
-    /* Remove border for blended look */
+    background: transparent !important;
 }
 
 figure:hover img {
@@ -731,4 +763,121 @@ footer p {
 
 ol li {
     margin-bottom: 0.8rem;
+}
+
+/* Tab Navigation Styles */
+/* Tab Navigation Styles */
+.tab-content {
+    display: none;
+    animation: fadeInTab 0.5s ease-out;
+}
+
+.tab-content.active-tab {
+    display: block;
+}
+
+/* Ensure sections are visible within tabs */
+section {
+    display: block;
+    position: relative;
+    padding: var(--space-lg) 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+header#hero {
+    display: flex;
+    /* Hero uses flex centering */
+    min-height: 100vh;
+}
+
+@keyframes fadeInTab {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Navigation Controls */
+.nav-controls {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 1.5rem 0;
+    background: rgba(10, 10, 10, 0.95);
+    /* Semi-transparent background */
+    backdrop-filter: blur(10px);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    border-top: 1px solid var(--bg-card-border);
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
+}
+
+.nav-btn {
+    min-width: 150px;
+}
+
+.nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+    border-color: var(--text-muted);
+    color: var(--text-muted);
+}
+
+/* Navigation Controls */
+.nav-controls {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 1.5rem 0;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(10px);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    border-top: 1px solid var(--bg-card-border);
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
+}
+
+.nav-btn {
+    min-width: 150px;
+}
+
+.nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+    box-shadow: none;
+    background: transparent;
+    border-color: var(--text-muted);
+    color: var(--text-muted);
+}
+
+/* GitHub Web Button Pop-out Style */
+.nav-links a.nav-github-btn {
+    border: 1px solid var(--accent-primary);
+    padding: 0.5rem 1.2rem;
+    color: var(--accent-primary);
+    border-radius: var(--border-radius);
+    background: rgba(255, 204, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-left: 1rem;
+}
+
+.nav-links a.nav-github-btn:hover {
+    background: var(--accent-primary);
+    color: var(--bg-core);
+    box-shadow: 0 0 20px rgba(255, 204, 0, 0.5);
+    transform: translateY(-2px);
+    text-shadow: none;
 }
